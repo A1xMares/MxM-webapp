@@ -1,0 +1,96 @@
+<div class="d-flex flex-column align-items-center align-content-center fullWidth pageContainer">
+  <div class="row maxFullHeight pb-4 pageContainer fullWidth">
+
+    <div class="col-12 col-md-6 pb-4 pb-md-0 full-md-height order-3 order-md-2">
+
+      <div class="row">
+        <div class="col-12" [@fInB1]="'in'">
+          <mat-card class="pb-2 pt-2 pl-3 pr-3 mb-4 overflow-hidden" style="height: 175px">
+
+            <div class="fullWidth fullHeight zonesChartContainer textCenter">
+              <canvas baseChart
+                      [datasets]="barChartData"
+                      [labels]="barChartLabels"
+                      [options]="barChartOptions"
+                      [legend]="barChartLegend"
+                      [chartType]="barChartType">
+              </canvas>
+            </div>
+
+          </mat-card>
+        </div>
+      </div>
+
+      <mat-card class="fullWidth p-0 zonesTableHeight overflow-hidden" [@fInB2]="'in'">
+
+        <!-- TITLE, SEARCH, BUTTON ROW -->
+        <div class="row pt-4 pl-4 pr-4 minHFit filters">
+
+          <!-- TITLE, RESPONSIVE BUTTON -->
+          <div class="col-12 col-lg-4 align-items-start align-content-start d-flex minHFit mb-2 mb-md-0 justify-content-between">
+
+            <!-- TITLE -->
+            <p class="h1-secondary-bold d-flex align-items-center align-content-center mr-3 mr-md-0 mb-0">
+              <mat-icon class="cardIcon mr-2">location_searching</mat-icon>
+              <span class="d-block"> Zonas </span>
+            </p>
+
+            <!-- NEW BUTTON (RESPONSIVE) -->
+            <button mat-raised-button
+                    class="d-flex d-lg-none"
+                    color="accent"
+                    (click)="openZone('nuevo')">
+              NUEVA
+              <mat-icon class="ml-1">add_box</mat-icon>
+            </button>
+          </div>
+
+          <!-- SEARCHBAR, DESKTOP BUTTON -->
+          <div class="col-12 col-lg-8 align-items-start align-content-start d-flex minHFit mb-2 mb-md-0 pt-2 pt-lg-0 justify-content-end">
+
+            <!-- SEARCHBAR -->
+            <div class="mr-0 mr-lg-2 zonesSearchContainer">
+              <mat-form-field appearance="outline" class="fullWidth">
+                <mat-label>Buscar</mat-label>
+                <mat-icon matPrefix>search</mat-icon>
+                <input matInput placeholder="Buscar..." [formControl]="searchbar">
+                <button mat-button *ngIf="searchbar.value" matSuffix mat-icon-button aria-label="Clear" (click)="searchbar.setValue('')">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-form-field>
+            </div>
+
+            <!-- NEW BUTTON (DESKTOP) -->
+            <button mat-raised-button
+                    class="mt-1 d-none d-lg-flex minWFit"
+                    color="accent"
+                    (click)="openZone('nuevo')">
+              NUEVA
+              <mat-icon class="ml-1">add_box</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="fullWidth p-0 zonesTableContainer overflow-hidden">
+          <app-data-table #datatable (tableLoad)="processZones($event)"></app-data-table>
+        </div>
+
+      </mat-card>
+    </div>
+
+    <!-- map -->
+    <div class="col-12 col-md-6 pb-4 pb-md-0 full-md-height order-2 order-md-3 " [@fInB3]="'in'">
+      <mat-card class="fullWidth p-0 fullHeight overflow-hidden">
+        <div style="height: 100%; min-height: 400px;"
+             class="fullWidth"
+             leaflet
+             [leafletOptions]="options"
+             [leafletLayers]="layers"
+             [leafletFitBounds]="currentBounds ? currentBounds.getBounds() : null"
+             (leafletMapReady)="mapLoaded($event)"
+             (leafletCenterChange)="centerChange()">
+        </div>
+      </mat-card>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,16 @@
+<div class="d-flex align-content-center align-content-center justify-content-between">
+  <h2 class="">{{data.title}}</h2>
+  <mat-icon class="closeButton" (click)="dismiss()">close</mat-icon>
+</div>
+
+<div mat-dialog-content class="Panel-act-2">
+  <h4 class="textCenter">{{data.subtitle}}</h4>
+  <div class="textCenter mb-2" *ngFor="let line of data.message">
+    <p>{{line}}</p>
+  </div>
+</div>
+<div mat-dialog-actions style="float: right;">
+  <button type="button" mat-button (click)="dismiss()">Cerrar</button>
+  <button type="button" mat-button (click)="confirm(false)" *ngIf="data.firstButton !== ''">{{data.firstButton}}</button>
+  <button type="button" mat-button (click)="confirm(true)" *ngIf="data.secondButton !== ''">{{data.secondButton}}</button>
+</div>

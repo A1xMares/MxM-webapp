@@ -1,0 +1,251 @@
+<!-- ============================================================== -->
+<!-- Main wrapper - style you can find in pages.scss -->
+<!-- ============================================================== -->
+<div id="main-wrapper">
+
+    <!----------------------->
+    <!-- per role pages sidenav -->
+    <mat-sidenav-container autosize id="matSideNav" class="fullHeight">
+
+        <mat-sidenav #secondSnav position="end" mode="over" >
+            <mat-drawer-container hasBackdrop="true" class="align-items-center align-content-center flex-column justify-content-center fullHeight" id="profileDrawer">
+              <mat-nav-list class="d-flex align-items-center align-content-center flex-column justify-content-center fullHeight pt-0">
+
+                  <div class="fullHeight fullWidth">
+
+                    <!-- LOGGED USER DATA -->
+                    <div matRipple
+                         class="d-flex align-items-center align-content-center justify-content-center flex-column pl-2 pr-2 pt-3 pb-3 pointer sideUserContainer"
+                         [routerLink]="'/perfil'"
+                         (click)="secondSnav.toggle();">
+
+                      <!-- IMG -->
+                      <img src="../../assets/img/user.png" alt="user picture"  class="pointer sideProfilePicture mt-2 mb-2">
+
+                      <!-- USER DATA -->
+                      <p class="h4-black-bold mt-2 mb-0 pt-1 textCenter pointer">
+                        {{currentUser ? currentUser.user.firstname + ' ' + currentUser.user.primaryLastname + ' ' + currentUser.user.secondaryLastname : 'N/D'}}
+                      </p>
+                    </div>
+
+                    <!-- USER DYNAMIC MENU -->
+                    <!--<div *ngFor="let item of profileMenu"
+                         [routerLink]="item.route"
+                         (click)="secondSnav.toggle();"
+                         routerLinkActive="active"
+                         class="fullWidth"
+                         matRipple>
+
+                      <a class="sidenavMenuItem d-flex align-items-center align-content-center justify-content-between fullWidth pb-3 pt-3 pl-3 pr-3">
+                        <p class="pl-3 fullWidth">
+                          {{item.title }}
+                        </p>
+                        <i class="feather-icon {{item.icon}} iconMenuRoot"></i>
+                      </a>
+                    </div>-->
+                  </div>
+
+                  <!-- OTHER DATA & LOGOUT -->
+                  <div class="fullWidth">
+
+                    <!-- CURRENT VERSION -->
+                    <p class="body-gray-bold fullWidth textCenter mb-2">
+                      Version 0.1.0
+                    </p>
+
+                    <mat-divider class="fullWidth"></mat-divider>
+
+                    <!-- LOGOUT BUTTON -->
+                    <div (click)="secondSnav.toggle();logout()"
+                         class="fullWidth"
+                         [ngClass]="{logoutBtn: mobileQuery.matches}"
+                         matRipple>
+
+                      <a class="sidenavMenuItem d-flex align-items-center align-content-center justify-content-between fullWidth pb-3 pt-3 pl-3 pr-3 pointer">
+                        <mat-icon class="rightSideNavMenuIcon">
+                          exit_to_app
+                        </mat-icon>
+                        <p class="fullWidth textCenter h4-black-regular mb-0">
+                          Cerrar sesión
+                        </p>
+                      </a>
+                    </div>
+                  </div>
+
+                </mat-nav-list>
+            </mat-drawer-container>
+        </mat-sidenav>
+
+        <mat-sidenav-content>
+
+          <!-- toolbar -->
+            <mat-toolbar id="toolbar" color="primary" class="mat-elevation-z2">
+
+              <mat-toolbar-row class="d-flex align-content-center align-items-center justify-content-between fullWidth toolbarRow">
+
+                <!-- logo  -->
+                <div class="d-flex align-content-center align-items-center">
+                  <!-- logo -->
+                  <div style="background-color: white; border-radius: 10px; padding: 5px 10px;" class="mr-4 d-flex align-items-center justify-content-center">
+                    <img src="../../assets/img/logo.png" alt="FINNE logo" id="structureLogo" class=" "/>
+                  </div>
+                  <h1 class="h2-white-bold" id="logoText">MÉXICO X MÉXICO</h1>
+                </div>
+
+                <!-- logged user -->
+                <div class="d-flex align-items-center align-content-center pl-2 pointer" id="userContainer" matRipple (click)="secondSnav.toggle()">
+
+                  <mat-icon class="mr-3 toolbarIcon">search</mat-icon>
+
+                  <mat-icon class="mr-3 toolbarIcon">notifications</mat-icon>
+
+                  <img src="../../assets/img/user.png" alt="user picture" id="profilePicture" class="pointer">
+                </div>
+
+              </mat-toolbar-row>
+
+              <mat-toolbar-row class="d-none d-lg-flex align-content-center align-items-center justify-content-between fullWidth toolbarRow" id="secondaryToolbar">
+
+                <!-- menu -->
+                <div class="d-flex align-content-center align-items-center pb-1 fullWidth justify-content-end">
+
+                  <button mat-button class="mr-3" routerLink="/inicio" routerLinkActive="active" (click)="checkUrl('')">
+                    <p class="h5-white-bold mt-2 mb-2 pt-1 pb-1 d-flex align-items-center align-content-center">
+                      <mat-icon class="mr-3">home</mat-icon>
+                      INICIO
+                    </p>
+                  </button>
+
+                  <button mat-button class="mr-3" [matMenuTriggerFor]="clientsMenu" [ngClass]="{active: isClients}">
+                    <p class="h5-white-bold mt-2 mb-2 pt-1 pb-1  d-flex align-items-center align-content-center">
+                      <mat-icon class="mr-3">work</mat-icon>
+                      TRABAJOS
+                      <mat-icon class="ml-2">keyboard_arrow_down</mat-icon>
+                    </p>
+                  </button>
+
+                  <button mat-button class="mr-3" [matMenuTriggerFor]="operabilityMenu" [ngClass]="{active: isOperability}">
+                    <p class="h5-white-bold mt-2 mb-2 pt-1 pb-1  d-flex align-items-center align-content-center">
+                      <mat-icon class="mr-3">category</mat-icon>
+                      SERVICIOS
+                      <mat-icon class="ml-2">keyboard_arrow_down</mat-icon>
+                    </p>
+                  </button>
+
+                  <button mat-button class="mr-3" [matMenuTriggerFor]="reportsMenu" [ngClass]="{active: isReports}">
+                    <p class="h5-white-bold mt-2 mb-2 pt-1 pb-1  d-flex align-items-center align-content-center">
+                      <mat-icon class="mr-3">assessment</mat-icon>
+                      ALIANZAS
+                      <mat-icon class="ml-2">keyboard_arrow_down</mat-icon>
+                    </p>
+                  </button>
+
+                  <button mat-button [matMenuTriggerFor]="configMenu" [ngClass]="{active: isConfig}">
+                    <p class="h5-white-bold mt-2 mb-2 pt-1 pb-1  d-flex align-items-center align-content-center">
+                      <mat-icon class="mr-3">settings</mat-icon>
+                      AJUSTES
+                      <mat-icon class="ml-2">keyboard_arrow_down</mat-icon>
+                    </p>
+                  </button>
+
+                </div>
+
+              </mat-toolbar-row>
+
+            </mat-toolbar>
+
+            <!-- children pages wrapper -->
+            <div id="pagesWrapper">
+                <div id="pagesPadding">
+                    <router-outlet id="routerOutlet" class="hidden"></router-outlet>
+                </div>
+            </div>
+        </mat-sidenav-content>
+
+    </mat-sidenav-container>
+
+</div>
+
+
+<!-- Mat menus  -->
+<mat-menu #clientsMenu="matMenu" class="menuDropdown" #clientsMenu>
+
+  <button mat-menu-item (click)="checkUrl('mis-trabajos/nuevo')"> <!-- routerLinkActive="dropActive" -->
+    <p class="h5-black-bold mt-2 mb-2 pt-1 pb-1 mr-2 d-flex align-items-center align-content-center">
+      <mat-icon class="mr-3 dropDownIcon">create_new_folder</mat-icon>
+      OFERTAR TRABAJO
+    </p>
+  </button>
+
+  <button mat-menu-item (click)="checkUrl('trabajos')">
+    <p class="h5-black-bold mt-2 mb-2 pt-1 pb-1 mr-2 d-flex align-items-center align-content-center">
+      <mat-icon class="mr-3 dropDownIcon">event_note</mat-icon>
+      TRABAJOS DISPONIBLES
+    </p>
+  </button>
+
+  <button mat-menu-item (click)="checkUrl('mis-trabajos')">
+    <p class="h5-black-bold mt-2 mb-2 pt-1 pb-1 mr-2 d-flex align-items-center align-content-center">
+      <mat-icon class="mr-3 dropDownIcon">event_available</mat-icon>
+      MIS TRABAJOS OFERTADOS
+    </p>
+  </button>
+
+</mat-menu>
+
+<!-- Mat menus  -->
+<mat-menu #operabilityMenu="matMenu" class="menuDropdown" #operabilityMenu>
+
+  <button mat-menu-item (click)="checkUrl('zonas')">
+    <p class="h5-black-bold mt-2 mb-2 pt-1 pb-1 mr-2 d-flex align-items-center align-content-center">
+      <mat-icon class="mr-3 dropDownIcon">store_mall_directory</mat-icon>
+      BUSCAR SERVICIOS
+    </p>
+  </button>
+
+  <button mat-menu-item (click)="checkUrl('rutas')">
+    <p class="h5-black-bold mt-2 mb-2 pt-1 pb-1 mr-2 d-flex align-items-center align-content-center">
+      <mat-icon class="mr-3 dropDownIcon">person_add</mat-icon>
+      OFRECER SERVICIO
+    </p>
+  </button>
+
+</mat-menu>
+
+<!-- Mat menus  -->
+<mat-menu #reportsMenu="matMenu" class="menuDropdown">
+
+  <button mat-menu-item>
+    <p class="h5-black-bold mt-2 mb-2 pt-1 pb-1 mr-2 d-flex align-items-center align-content-center">
+      <mat-icon class="mr-3 dropDownIcon">trending_up</mat-icon>
+      BUSCAR ALIANZAS
+    </p>
+  </button>
+
+  <button mat-menu-item>
+    <p class="h5-black-bold mt-2 mb-2 pt-1 pb-1 mr-2 d-flex align-items-center align-content-center">
+      <mat-icon class="mr-3 dropDownIcon">insert_chart_outlined</mat-icon>
+      OFERTAR ALIANZA
+    </p>
+  </button>
+
+</mat-menu>
+
+<!-- Mat menus  -->
+<mat-menu #configMenu="matMenu" class="menuDropdown">
+
+  <button mat-menu-item (click)="checkUrl('usuarios')">
+    <p class="h5-black-bold mt-2 mb-2 pt-1 pb-1 mr-2 d-flex align-items-center align-content-center">
+      <mat-icon class="mr-3 dropDownIcon">person</mat-icon>
+      PERFIL
+    </p>
+  </button>
+
+  <button mat-menu-item (click)="checkUrl('configuracion')">
+    <p class="h5-black-bold mt-2 mb-2 pt-1 pb-1 mr-2 d-flex align-items-center align-content-center">
+      <mat-icon class="mr-3 dropDownIcon">tune</mat-icon>
+      CONFIGURACIÓN
+    </p>
+  </button>
+
+</mat-menu>

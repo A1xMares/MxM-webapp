@@ -1,0 +1,54 @@
+<div class="p-3" (click)="$event.stopPropagation();">
+    <h3 class="h3-black-bold" (click)="$event.stopPropagation();">Tags</h3>
+
+    <div class="row fullWidth" (click)="$event.stopPropagation();">
+        <!-- tags input -->
+        <div class="col-8 formItem" (click)="$event.stopPropagation();">
+            <label for="tagsInput" class="inputLabel" (click)="$event.stopPropagation();">Write tag to add</label>
+            <div class="customInput" (click)="tagsInput.focus();$event.stopPropagation();">
+                <input type="text" matInput placeholder="Tag" id="tagsInput" class="fullHeight" #tagsInput [formControl]="tag">
+                <button type="button"  class="searchbarSuffix fsize22" *ngIf="this.tag.value" matSuffix aria-label="Clear" (click)="this.tag.setValue('')">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </div>
+        </div>
+
+        <!-- add tag button -->
+        <div class="col-4 formItem" (click)="$event.stopPropagation();">
+            <label class="inputLabel hideOnMobile" (click)="$event.stopPropagation();">Add tag</label>
+            <label class="inputLabel hideOnDesktop" (click)="$event.stopPropagation();">Add</label>
+            <button class="grayButton addButton" matRipple type="button" (click)="addTag()" >
+                <mat-icon>add_circle_outline</mat-icon>
+                <span class="hideOnMobile">Add</span>
+            </button>
+        </div>
+
+        <!-- tags added to -->
+        <div class="col-12" (click)="$event.stopPropagation();">
+            <div class="row" (click)="$event.stopPropagation();">
+                <div class="col-12 formItem" (click)="$event.stopPropagation();">
+                    <label class="inputLabel" (click)="$event.stopPropagation();">Assigned tags</label>
+                </div>
+
+                <!-- user reminder tags-->
+                <div class="col-12" (click)="$event.stopPropagation();">
+                    <mat-chip-list *ngIf="tags.length > 0" (click)="$event.stopPropagation();">
+                        <mat-chip *ngFor="let tag of tags" removable="true" selectable="false" (removed)="removeTag(tag)" class="subjectChip" (click)="$event.stopPropagation();">
+                            <p class="popUpMenuText">{{tag}}</p>
+                            <mat-icon matChipRemove>close</mat-icon>
+                        </mat-chip>
+                    </mat-chip-list>
+                    <p *ngIf="tags.length === 0" class="tableText" (click)="$event.stopPropagation();">Has not tags assigned</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex align-items-start align-content-start justify-content-end">
+        <button class="orangeButton" matRipple type="button" (click)="performRequest()">
+            <mat-icon class=" marg0">save</mat-icon>
+            <span class="">Save</span>
+        </button>
+    </div>
+</div>
+

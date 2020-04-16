@@ -1,0 +1,38 @@
+<div class="rateContainer p-3" (click)="$event.stopPropagation();">
+    <h3 class="h3-black-bold" (click)="$event.stopPropagation();">Rate</h3>
+
+    <div class="d-flex align-items-center align-content-center justify-content-around" (click)="$event.stopPropagation();">
+        <div class="fullWidth d-flex align-items-center align-content-center justify-content-start" (click)="$event.stopPropagation();">
+            <button type="button" class="editButton" (click)="changeRate(0)">
+                <mat-icon class="whiteClass removeStars">remove_circle_outline</mat-icon>
+            </button>
+            <button type="button" class="editButton" (click)="changeRate(1)">
+                <mat-icon class="whiteClass s1" *ngIf="!isActive1">star_border</mat-icon>
+                <mat-icon class="whiteClass s1" *ngIf="isActive1">star</mat-icon>
+            </button>
+            <button type="button" class="editButton" (click)="changeRate(2)">
+                <mat-icon class="whiteClass s2" *ngIf="!isActive2">star_border</mat-icon>
+                <mat-icon class="whiteClass s2" *ngIf="isActive2">star</mat-icon>
+            </button>
+            <button type="button" class="editButton" (click)="changeRate(3)">
+                <mat-icon class="whiteClass" *ngIf="!isActive3">star_border</mat-icon>
+                <mat-icon class="whiteClass" *ngIf="isActive3">star</mat-icon>
+            </button>
+            <button type="button" class="editButton" (click)="changeRate(4)">
+                <mat-icon class="whiteClass s4" *ngIf="!isActive4">star_border</mat-icon>
+                <mat-icon class="whiteClass s4" *ngIf="isActive4">star</mat-icon>
+            </button>
+            <button type="button" class="editButton" (click)="changeRate(5)">
+                <mat-icon class="whiteClass s5" *ngIf="!isActive5">star_border</mat-icon>
+                <mat-icon class="whiteClass s5" *ngIf="isActive5">star</mat-icon>
+            </button>
+        </div>
+
+        <button class="orangeButton" matRipple type="button" (click)="performRequest()">
+            <mat-icon class=" marg0">save</mat-icon>
+            <span class="">Save</span>
+        </button>
+
+    </div>
+
+</div>

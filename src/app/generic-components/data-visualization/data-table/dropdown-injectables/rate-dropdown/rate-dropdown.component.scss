@@ -1,0 +1,22 @@
+
+.editButton {
+  color: var(--orange);
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  mat-icon {
+    height: 20px !important;
+    width: 20px !important;
+    font-size: 20px !important;
+    padding: 0 !important;
+  }
+}
+
+.removeStars {
+  width: 17px;
+  height: 17px;
+  font-size: 17px;
+}

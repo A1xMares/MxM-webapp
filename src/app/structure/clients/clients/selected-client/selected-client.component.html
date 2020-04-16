@@ -1,0 +1,462 @@
+
+<div class="row minZoneHeight pl-3 pr-3 form">
+
+  <div class="col-12 col-lg-8 maxFullH" [@fInT1]="'in'">
+    <mat-card class="fullWidth p-3 mb-4 minHFit maxFullH overflow-hidden">
+
+      <div class="row">
+        <div class="col-12 d-flex align-content-center align-items-center justify-content-between mb-0 flex-wrap">
+          <div class="d-flex align-content-center align-items-center">
+            <!-- BACK CLEINTES -->
+            <button mat-raised-button color="accent" class="mr-3"
+                    (click)="router.navigate(['clientes']).catch()"
+                    matTooltip="Ir a zonas">
+              <mat-icon class="mr-1" >arrow_back</mat-icon>
+              Clientes
+            </button>
+            <!-- TITLE -->
+            <p class="h1-secondary-bold d-flex align-items-center align-content-center mb-0 mr-3">
+              <mat-icon class="cardIcon mr-2">people_alt</mat-icon>
+              {{isNew ? 'Nuevo cliente' : 'Cliente'}}
+            </p>
+          </div>
+
+          <div class="d-flex">
+
+            <button mat-button
+                    *ngIf="!isNew && !isEdit"
+                    (click)="isEdit = true"
+                    class="d-flex align-content-center align-items-center mr-2">
+              Editar
+              <mat-icon class="ml-2 editZoneIcon">edit</mat-icon>
+            </button>
+
+            <button mat-button
+                    *ngIf="!isNew && isEdit"
+                    (click)="isEdit = false;resetValues()"
+                    class="d-flex grayButton align-content-center align-items-center">
+              Cancelar edición
+              <mat-icon class="ml-1 editZoneIcon">close</mat-icon>
+            </button>
+
+            <!--<div class="d-flex" *ngIf="!mobileQuery.matches && !isNew && !isEdit">
+              <button mat-raised-button (click)="stepper.previous()" class="mb-1 mr-2">Anterior</button>
+              <button mat-raised-button  (click)="stepper.next()" class="mb-1">Siguiente</button>
+            </div>-->
+          </div>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="!mobileQuery.matches">
+        <mat-horizontal-stepper class="pb-0" [linear]="isNew" (selectionChange)="this.mapRef.invalidateSize()" #stepper>
+
+          <mat-step [stepControl]="dataForm">
+            <ng-template matStepLabel>Datos</ng-template>
+            <ng-container [ngTemplateOutlet]="stepOne"></ng-container>
+            <div class="d-flex justify-content-end pb-2">
+              <button mat-raised-button matStepperNext class="mb-1 greenButton" *ngIf="dataForm.valid && isEdit">Siguiente</button>
+            </div>
+          </mat-step>
+
+          <mat-step [stepControl]="locationForm">
+            <ng-template matStepLabel>Ubicación</ng-template>
+            <ng-container [ngTemplateOutlet]="stepTwo"></ng-container>
+            <div class="d-flex justify-content-end pb-2">
+              <button mat-raised-button matStepperPrevious class="mb-1 grayButton mr-2" *ngIf="isEdit">Anterior</button>
+              <button mat-raised-button matStepperNext class="mb-1 greenButton" *ngIf="locationForm.valid && isEdit">Siguiente</button>
+            </div>
+          </mat-step>
+
+          <mat-step [stepControl]="guaranteeForm">
+            <ng-template matStepLabel>Aval</ng-template>
+            <ng-container [ngTemplateOutlet]="stepThree"></ng-container>
+            <div class="d-flex justify-content-end pb-2">
+              <button mat-raised-button matStepperPrevious class="mb-1 grayButton mr-2" *ngIf="isEdit">Anterior</button>
+              <button mat-raised-button matStepperNext class="mb-1 greenButton" *ngIf="guaranteeForm.valid && isEdit">Siguiente</button>
+            </div>
+          </mat-step>
+
+          <mat-step [stepControl]="docsForm">
+            <ng-template matStepLabel>Documentos</ng-template>
+            <ng-container [ngTemplateOutlet]="stepFour"></ng-container>
+          </mat-step>
+
+        </mat-horizontal-stepper>
+      </div>
+
+      <div class="row" *ngIf="mobileQuery.matches">
+        <mat-vertical-stepper class="pb-0" [linear]="isNew" #stepper>
+
+          <mat-step [stepControl]="dataForm">
+            <ng-template matStepLabel>Datos</ng-template>
+            <ng-container [ngTemplateOutlet]="stepOne"></ng-container>
+            <button mat-raised-button matStepperNext class="mb-1 grayButton">Siguiente</button>
+          </mat-step>
+
+          <mat-step [stepControl]="locationForm">
+            <ng-template matStepLabel>Ubicación</ng-template>
+            <ng-container [ngTemplateOutlet]="stepTwo"></ng-container>
+            <button mat-raised-button matStepperNext class="mb-1 grayButton">Siguiente</button>
+          </mat-step>
+
+          <mat-step [stepControl]="guaranteeForm">
+            <ng-template matStepLabel>Aval</ng-template>
+            <ng-container [ngTemplateOutlet]="stepThree"></ng-container>
+            <button mat-raised-button matStepperNext class="mb-1 grayButton">Siguiente</button>
+          </mat-step>
+
+          <mat-step>
+            <ng-template matStepLabel>Documentos</ng-template>
+            <ng-container [ngTemplateOutlet]="stepFour"></ng-container>
+            <button mat-raised-button matStepperNext class="mb-1 grayButton">Siguiente</button>
+          </mat-step>
+
+        </mat-vertical-stepper>
+      </div>
+
+      <div class="row">
+
+        <mat-divider *ngIf="isEdit"></mat-divider>
+
+        <div class="col-12 d-flex align-items-center align-content-center justify-content-end pt-3 mb-2" *ngIf="isEdit">
+
+          <!-- DELETE -->
+          <button mat-raised-button
+                  class="mr-3"
+                  color="warn"
+                  *ngIf="!isNew"
+                  (click)="delete()">
+            <mat-icon class="mr-1">delete</mat-icon>
+            Eliminar zona
+          </button>
+
+          <!-- BUTTON -->
+          <button mat-raised-button
+                  class=""
+                  color="accent"
+                  type="submit"
+                  (click)="performRequest()"
+                  [disabled]="!dataForm.valid || !locationForm.valid || !guaranteeForm.valid || !documents">
+            <mat-icon class="mr-1">save</mat-icon>
+            Guardar cliente
+          </button>
+
+        </div>
+      </div>
+
+    </mat-card>
+  </div>
+
+  <div class="col-12 col-lg-4 maxFullH pb-4" [@fInT2]="'in'" *ngIf="!isNew">
+    <mat-card class="fullWidth full-md-height p-3 mb-4 minHFit maxFullH overflow-hidden">
+      <app-client-status></app-client-status>
+    </mat-card>
+  </div>
+
+  <div class="col-12 col-lg-8 maxFullH" [@fInB1]="'in'" *ngIf="!isNew">
+    <mat-card class="fullWidth p-3 mb-4 minHFit maxFullH overflow-hidden">
+      <app-visits-history></app-visits-history>
+    </mat-card>
+  </div>
+
+  <div class="col-12 col-lg-4 maxFullH" [@fInB2]="'in'" *ngIf="!isNew">
+    <mat-card class="fullWidth p-3 mb-4 minHFit maxFullH overflow-hidden">
+      <app-client-route></app-client-route>
+    </mat-card>
+  </div>
+
+  <div class="col-12 col-lg-6">
+
+    <div class="d-flex align-content-start align-content-start flex-column justify-content-center fullWidth" *ngIf="!isNew">
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- NG TEMPLATES WITH 4 STEPS -->
+
+<!-- DATA -->
+<ng-template #stepOne>
+  <div class="row" [formGroup]="dataForm">
+
+    <div class="col-12 col-md-5 col-lg-4 ">
+      <!-- CLIENT IMAGE -->
+      <div class="row pl-3 pr-3 mb-3">
+        <div class="col-12 mt-0 mb-2 pl-0">
+          <p class="h4-black-bold mb-2 pl-0 textCenter"> Imagen del cliente </p>
+        </div>
+
+        <div class="col-12 imageContainer d-flex align-items-center justify-content-center">
+          <img src="../../../../../assets/img/user_gray.png" alt="user picture" id="uploadPicture" class="pointer">
+          <!--<img src="../../../../../assets/img/upload.png" alt="user picture" id="profilePicture" class="pointer">-->
+        </div>
+
+        <div class="fullWidth d-flex justify-content-center">
+          <button mat-raised-button class="mt-3">
+            <mat-icon class="mr-1" >collections</mat-icon>
+            Cambiar imagen
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-7 col-lg-8">
+      <div class="row">
+
+        <div class="col-12 mt-0 mb-1">
+          <p class="h4-black-bold mb-1"> Datos del cliente </p>
+        </div>
+
+        <!-- FIRSTNAME -->
+        <div class="col-12 col-sm-6 mb-2 mt-2">
+          <mat-form-field appearance="outline" class="fullWidth">
+            <mat-label>Nombre(s) </mat-label>
+            <input matInput placeholder="Nombre(s)" formControlName="firstname" required [readonly]="!isEdit">
+            <button mat-button type="button" *ngIf="dataForm.get('firstname').value && isEdit" matSuffix mat-icon-button aria-label="Clear" (click)="dataForm.get('firstname').setValue('')">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+
+        <!-- LASTNAME -->
+        <div class="col-12 col-sm-6 mb-2 mt-2">
+          <mat-form-field appearance="outline" class="fullWidth">
+            <mat-label>Apellidos </mat-label>
+            <input matInput placeholder="Apellidos" formControlName="lastname" required [readonly]="!isEdit">
+            <button mat-button type="button" *ngIf="dataForm.get('lastname').value && isEdit" matSuffix mat-icon-button aria-label="Clear" (click)="dataForm.get('lastname').setValue('')">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+
+        <!-- PHONE -->
+        <div class="col-12 col-sm-6 mb-2 mt-2">
+          <mat-form-field appearance="outline" class="fullWidth">
+            <mat-label>Teléfono</mat-label>
+            <input matInput placeholder="Teléfono" mask="(00) 0000 0000" [validation]="false"  formControlName="phone" required [readonly]="!isEdit">
+            <button mat-button type="button" *ngIf="dataForm.get('phone').value && isEdit" matSuffix mat-icon-button aria-label="Clear" (click)="dataForm.get('phone').setValue('')">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+
+        <!-- BIRTHDATE -->
+        <div class="col-12 col-sm-6 mb-2 mt-2">
+          <mat-form-field appearance="outline" class="fullWidth">
+            <mat-label>Fecha de nacimiento</mat-label>
+            <input matInput [max]="today" [matDatepicker]="picker" formControlName="birthdate" placeholder="Selecciona una fecha" autocomplete="off">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker startView="multi-year" ></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+        <!-- RFC -->
+        <div class="col-12 col-sm-6 mb-2 mt-2">
+          <mat-form-field appearance="outline" class="fullWidth">
+            <mat-label>RFC</mat-label>
+            <input matInput placeholder="RFC" formControlName="rfc" required [readonly]="!isEdit">
+            <button mat-button type="button" *ngIf="dataForm.get('rfc').value && isEdit" matSuffix mat-icon-button aria-label="Clear" (click)="dataForm.get('rfc').setValue('')">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+
+        <!-- BUSINESS TURN -->
+        <div class="col-12 col-sm-6 mb-2 mt-2">
+          <mat-form-field appearance="outline" class="fullWidth">
+            <mat-label>Giro del negocio</mat-label>
+            <mat-select placeholder="Giro" formControlName="businessTurn" required [disabled]="!isEdit">
+              <mat-option value="" disabled="">Seleccione una opción</mat-option>
+              <mat-option *ngFor="let businessTurn of businessTurnOptions" [value]="businessTurn.id">{{businessTurn.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <!-- PHONE REF -->
+        <div class="col-12 col-sm-6 mb-2 mt-2">
+          <mat-form-field appearance="outline" class="fullWidth">
+            <mat-label>Teléfono de referencia</mat-label>
+            <input matInput placeholder="Teléfono" mask="(00) 0000 0000" [validation]="false"  formControlName="phoneRef" required [readonly]="!isEdit">
+            <button mat-button type="button" *ngIf="dataForm.get('phoneRef').value && isEdit" matSuffix mat-icon-button aria-label="Clear" (click)="dataForm.get('phoneRef').setValue('')">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+
+        <!-- STATUS -->
+        <div class="col-12 col-sm-6 mb-2 mt-2">
+          <mat-form-field appearance="outline" class="fullWidth">
+            <mat-label>Estauts </mat-label>
+            <input matInput placeholder="Estatus" formControlName="status" required [readonly]="!isEdit">
+            <button mat-button type="button" *ngIf="dataForm.get('status').value && isEdit" matSuffix mat-icon-button aria-label="Clear" (click)="dataForm.get('status').setValue('')">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</ng-template>
+
+<!-- LOCATION -->
+<ng-template #stepTwo>
+
+  <div class="row" [formGroup]="locationForm">
+
+    <div class="col-12 col-md-7 col-lg-8">
+      <div class="row">
+
+        <div class="col-12 mb-1">
+          <p class="h4-black-bold mb-1"> Dirección </p>
+        </div>
+        <!-- DIRECCION -->
+        <div class="col-12 mb-2 mt-2">
+          <mat-form-field appearance="outline" class="fullWidth">
+            <mat-label>Dirección</mat-label>
+            <input matInput placeholder="Dirección (buscador con google)" formControlName="address" required [readonly]="!isEdit" id="addressWrapper">
+            <button mat-button type="button" *ngIf="locationForm.get('address').value && isEdit" matSuffix mat-icon-button aria-label="Clear" (click)="locationForm.get('address').setValue('')">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+        <!-- ZONA -->
+        <div class="col-12 col-sm-6 col-lg-4 mb-2 mt-2">
+          <mat-form-field appearance="outline" class="fullWidth">
+            <mat-label>Zona</mat-label>
+            <mat-select placeholder="Zona" formControlName="zoneId" required [disabled]="!isEdit">
+              <mat-option value="" disabled="">Seleccione una opción</mat-option>
+              <mat-option value="-">Ninguna zona</mat-option>
+              <mat-option *ngFor="let zone of zoneOptions" [value]="zone.id">{{zone.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <!-- DIRECCION -->
+        <div class="col-12 mb-2 mt-2">
+          <mat-form-field appearance="outline" class="fullWidth">
+            <mat-label>Referencias</mat-label>
+            <textarea matInput rows="5" placeholder="Referencias..." formControlName="reference" required [readonly]="!isEdit"></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-5 col-lg-4">
+      <!-- CLIENT LOCATION -->
+      <div class="row">
+        <div class="col-12 mb-2">
+          <p class="h4-black-bold mb-2"> Mapa </p>
+        </div>
+        <div class="col-12 mb-3">
+          <div id="leafletContainer"
+               class="fullWidth"
+               leaflet
+               [leafletOptions]="options"
+               [leafletLayers]="prevLayers"
+               (leafletMapReady)="mapLoaded($event)"
+               (leafletCenterChange)="centerChange()"
+               [(leafletZoom)]="zoom"
+               [(leafletCenter)]="center">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</ng-template>
+
+<!-- GUARANTEE -->
+<ng-template #stepThree>
+  <div class="row" [formGroup]="guaranteeForm">
+
+    <div class="col-12 mb-1">
+      <p class="h4-black-bold mb-1"> Datos del aval </p>
+    </div>
+
+    <!-- NAME -->
+    <div class="col-12 col-lg-8 mb-2 mt-2">
+      <mat-form-field appearance="outline" class="fullWidth">
+        <mat-label>Nombre completo </mat-label>
+        <input matInput placeholder="Nombre completo" formControlName="name" required [readonly]="!isEdit">
+        <button mat-button type="button" *ngIf="guaranteeForm.get('name').value && isEdit" matSuffix mat-icon-button aria-label="Clear" (click)="guaranteeForm.get('name').setValue('')">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+
+    <!-- PHONE -->
+    <div class="col-12 col-sm-6 col-lg-4 mb-2 mt-2">
+      <mat-form-field appearance="outline" class="fullWidth">
+        <mat-label>Teléfono</mat-label>
+        <input matInput placeholder="Teléfono" mask="(00) 0000 0000" [validation]="false"  formControlName="phone" required [readonly]="!isEdit">
+        <button mat-button type="button" *ngIf="guaranteeForm.get('phone').value && isEdit" matSuffix mat-icon-button aria-label="Clear" (click)="guaranteeForm.get('phone').setValue('')">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+
+    <!-- BIRTHDATE -->
+    <div class="col-12 col-sm-6 col-lg-4 mb-2 mt-2">
+      <mat-form-field appearance="outline" class="fullWidth">
+        <mat-label>Fecha de nacimiento</mat-label>
+        <input matInput [max]="today" [matDatepicker]="picker2" formControlName="birthdate" placeholder="Selecciona una fecha" autocomplete="off">
+        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-datepicker #picker2 startView="multi-year" ></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+    <!-- RFC -->
+    <div class="col-12 col-sm-6 col-lg-4 mb-2 mt-2">
+      <mat-form-field appearance="outline" class="fullWidth">
+        <mat-label>RFC</mat-label>
+        <input matInput placeholder="RFC" formControlName="rfc" required [readonly]="!isEdit">
+        <button mat-button type="button" *ngIf="guaranteeForm.get('rfc').value && isEdit" matSuffix mat-icon-button aria-label="Clear" (click)="guaranteeForm.get('rfc').setValue('')">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+
+    <!-- PHONE REF -->
+    <div class="col-12 col-sm-6 col-lg-4 mb-2 mt-2">
+      <mat-form-field appearance="outline" class="fullWidth">
+        <mat-label>Teléfono de referencia</mat-label>
+        <input matInput placeholder="Teléfono" mask="(00) 0000 0000" [validation]="false"  formControlName="phoneRef" required [readonly]="!isEdit">
+        <button mat-button type="button" *ngIf="guaranteeForm.get('phoneRef').value && isEdit" matSuffix mat-icon-button aria-label="Clear" (click)="guaranteeForm.get('phoneRef').setValue('')">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+
+    <div class="col-12 mb-1 mt-2">
+      <p class="h4-black-bold mb-1"> Ubicación del aval </p>
+    </div>
+
+    <!-- DIRECCION -->
+    <div class="col-12 col-lg-12 mb-2 mt-2">
+      <mat-form-field appearance="outline" class="fullWidth">
+        <mat-label>Dirección</mat-label>
+        <input matInput placeholder="Dirección (buscador con google)" formControlName="address" required [readonly]="!isEdit" id="guaranteeAddress">
+        <button mat-button type="button" *ngIf="guaranteeForm.get('address').value && isEdit" matSuffix mat-icon-button aria-label="Clear" (click)="guaranteeForm.get('address').setValue('')">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+    <!-- REFERENCES -->
+    <div class="col-12 mb-2 mt-2">
+      <mat-form-field appearance="outline" class="fullWidth">
+        <mat-label>Referencias</mat-label>
+        <textarea rows="5" matInput placeholder="Referencias..." formControlName="reference" required [readonly]="!isEdit"></textarea>
+      </mat-form-field>
+    </div>
+  </div>
+</ng-template>
+
+<!-- DOCUMENTS -->
+<ng-template #stepFour>
+
+
+
+</ng-template>

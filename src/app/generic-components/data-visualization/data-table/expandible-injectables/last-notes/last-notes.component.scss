@@ -1,0 +1,15 @@
+.notesContainer {
+  height: 150px;
+  min-width: fit-content;
+}
+
+.scrollContainer {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.noteCard {
+  height: 125px;
+  width: 300px;
+  background: lightgoldenrodyellow !important;
+}

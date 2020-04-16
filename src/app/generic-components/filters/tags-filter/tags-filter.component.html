@@ -1,0 +1,62 @@
+<!-- BUTTON -->
+<div class="ultimateSelectButton" matRipple [matMenuTriggerFor]="ultimateMenu">
+  <mat-icon class="filterIcon">{{configObject ? configObject.buttonIcon: 'N/A'}}</mat-icon>
+  <p class="body-gray-bold">{{configObject ? configObject.buttonTitle + ' (' + selectedObjects.length + ') ': 'N/A'}}</p>
+</div>
+
+<!-- popoup -->
+<mat-menu #ultimateMenu="matMenu" (click)="$event.stopPropagation();" class="tagsMatModal pt-3" #menuDropDown>
+
+  <div class="d-flex align-content-center align-items-center justify-content-between" (click)="$event.stopPropagation();">
+    <p class="pl-3 h2-orange-bold" (click)="$event.stopPropagation();">
+      Filter by {{ configObject ? configObject.buttonTitle : 'N/D'}}
+    </p>
+
+    <div class="d-flex align-content-center align-items-center" (click)="$event.stopPropagation();">
+      <mat-spinner *ngIf="loading" class="modalSpnner ml-1 mr-2" (click)="$event.stopPropagation();"></mat-spinner>
+
+      <button class="grayButton clearButton mr-3" matRipple (click)="clearFilter()">
+        <mat-icon class="actionsAuctionIcon">clear</mat-icon>
+        <span>Clear filter</span>
+      </button>
+    </div>
+
+  </div>
+
+  <div class="fullWidth pl-3 pr-3 mt-2 d-flex align-content-center align-items-center" (click)="$event.stopPropagation();">
+    <div class="customInput fullWidth searchContainer mr-2" (click)="$event.stopPropagation();">
+      <input type="text" class="fullHeight" matInput [placeholder]="configObject ? configObject.inputPlaceholder : 'N/D'" id="tagsInput" #tagsInput [formControl]="tagsBar">
+      <button type="button" class="searchbarSuffix fsize22" *ngIf="tagsBar.value" matSuffix aria-label="Clear" (click)="tagsBar.setValue('')">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <button class="orangeButton addTagButton" matRipple (click)="addObject(tagsBar.value)">
+      <mat-icon class="actionsAuctionIcon">add_circle_outline</mat-icon>
+      <span>Add tag</span>
+    </button>
+  </div>
+
+  <!----------------------->
+  <!-- SELECTED TITLE (MOBILE) -->
+  <p class="h5-black-bold mt-3 mb-2 ml-3" (click)="$event.stopPropagation();"> Selected </p>
+
+  <!----------------------->
+  <!-- SELECTED LIST (MOBILE) -->
+  <div class="selectedContainer2 pl-3 pr-3">
+    <div class="d-flex align-items-center align-content-center flex-wrap cut-text" *ngFor="let selected of selectedObjects" (click)="$event.stopPropagation();">
+      <mat-checkbox
+              checked="true" color="accent"
+              class="body-black-regular mb-2 mt-1 cut-text checkItem"
+              (change)="removeObject(selected)">
+        <p class="cut-text body-black-regular">{{ selected }}</p>
+      </mat-checkbox>
+    </div>
+    <!----------------------->
+    <!-- MESSAGE ON SELECTED === 0 -->
+    <p *ngIf="selectedObjects.length === 0" (click)="$event.stopPropagation();" class="body-black-regular mt-1">
+      Has not selected
+    </p>
+  </div>
+
+</mat-menu>

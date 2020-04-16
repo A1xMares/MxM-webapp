@@ -1,0 +1,75 @@
+/*
+	Componentes
+ */
+@import "variables";
+/* Botones */
+@mixin buttonBase($h, $br, $bs, $pl, $pr, $m) {
+	height: $h;
+	border-radius: $br;
+	box-shadow: $bs;
+	padding-left: $pl;
+	padding-right: $pr;
+	margin: $m;
+}
+
+/* Text */
+.text-strike {
+	text-decoration: line-through;
+}
+
+/* Backgrounds */
+.bg-gray {
+	background: $white-two;
+}
+
+@mixin cardBase($b) {
+	border-radius: 3px;
+	overflow: hidden;
+	-webkit-box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.07);
+	-moz-box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.07);
+	box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.07);
+	background: $b !important;
+}
+
+.whiteCard {
+	@include cardBase(#fff);
+}
+
+.grayCard {
+	@include cardBase(gray);
+}
+
+.greenCard {
+	@include cardBase(#00D567);
+}
+
+.orangeCard {
+	@include cardBase(#FF353B);
+}
+
+.blueCard {
+	@include cardBase(#19C6D9);
+}
+
+.yellowCard {
+	@include cardBase(#EAC900);
+}
+
+.lightGrayCard {
+	@include cardBase(#ECECEC);
+}
+
+.yellowButton {
+  background-color: #edb426 !important;
+  color: white !important;
+}
+
+.grayButton {
+  background-color: gray !important;
+  color: white !important;
+}
+
+.greenButton {
+  background-color: darkgreen !important;
+  color: white !important;
+}

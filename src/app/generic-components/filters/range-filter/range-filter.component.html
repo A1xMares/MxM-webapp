@@ -1,0 +1,56 @@
+<!-- BUTTON -->
+<div class="ultimateSelectButton" matRipple [matMenuTriggerFor]="ultimateMenu">
+  <mat-icon class="filterIcon">{{configObject ? configObject.buttonIcon: 'N/A'}}</mat-icon>
+  <p class="body-gray-bold">{{configObject ? configObject.buttonTitle + ' (' + (initRange.value > 0 ? initRange.value : '0') + ' - ' + (endRange.value > 0 ? endRange.value : '0') + ') ': 'N/A'}}</p>
+</div>
+
+<!----------------------->
+<!-- popoup filter tags -->
+<mat-menu #ultimateMenu="matMenu" (click)="$event.stopPropagation();" class="ultimateMatModal pt-3" #menuDropDown>
+
+  <div class="d-flex align-content-center align-items-center justify-content-between" (click)="$event.stopPropagation();">
+    <p class="pl-3 h2-orange-bold" (click)="$event.stopPropagation();">
+      Filter by {{ configObject ? configObject.buttonTitle : 'N/A'}}
+    </p>
+
+    <div class="d-flex align-content-center align-items-center" (click)="$event.stopPropagation();">
+      <mat-spinner *ngIf="loading" class="modalSpnner ml-1 mr-2" (click)="$event.stopPropagation();"></mat-spinner>
+
+      <button class="grayButton clearButton mr-3" matRipple (click)="clearFilter()">
+        <mat-icon class="actionsAuctionIcon">clear</mat-icon>
+        <span>Clear filter</span>
+      </button>
+
+      <!--<button class="orangeButton mr-3" matRipple (click)="setRange()">
+        <mat-icon class="actionsAuctionIcon">add_circle_outline</mat-icon>
+        <span>Set range</span>
+      </button>-->
+    </div>
+  </div>
+
+  <div class="fullWidth pl-3 pr-3 mt-2 mb-3" (click)="$event.stopPropagation();">
+    <div class="row">
+      <!----------------------->
+      <!-- INPUT -->
+      <div class="col-12 col-md-6">
+        <div class="customInput">
+          <input type="number" class="fullHeight" matInput placeholder="Initial range value" id="init" #init [formControl]="initRange">
+          <button type="button" class="searchbarSuffix fsize22" *ngIf="initRange.value" matSuffix aria-label="Clear" (click)="initRange.setValue('')">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
+      <!----------------------->
+      <!-- INPUT -->
+      <div class="col-12 col-md-6">
+        <div class="customInput">
+          <input type="number" class="fullHeight" matInput placeholder="End range value" id="end" #end [formControl]="endRange">
+          <button type="button" class="searchbarSuffix fsize22" *ngIf="endRange.value" matSuffix aria-label="Clear" (click)="endRange.setValue('')">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</mat-menu>

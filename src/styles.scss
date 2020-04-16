@@ -1,0 +1,203 @@
+@mixin faceGenerate($family, $src, $fw, $fs) {
+  @font-face {
+    font-family: $family;
+    src: url($src);
+    font-weight: $fw;
+    font-style: $fs;
+  }
+}
+
+@import 'assets/font-awesome/css/font-awesome.min.css';
+@import '~ngx-owl-carousel-o/lib/styles/scss/owl.carousel';
+
+@import 'assets/leaflet/leaflet.css';
+@import 'assets/leaflet-draw/leaflet.draw.css';
+
+@include faceGenerate('Roboto', './assets/fonts/Roboto/Roboto-Light.ttf', 300, 'normal');
+@include faceGenerate('Roboto', './assets/fonts/Roboto/Roboto-Regular.ttf', 400, 'normal');
+@include faceGenerate('Roboto', './assets/fonts/Roboto/Roboto-Bold.ttf', 700, 'normal');
+
+@import "./assets/material/customTheme.scss";
+
+@include mat-core();
+@include angular-material-theme($my-theme);
+
+@import "./assets/material/customComponents.scss";
+@import "./assets/css/bootstrap-grid.min.css";
+
+@import "assets/scss/variables";
+@import "assets/scss/guidelines";
+@import "assets/scss/components";
+
+/* --------------- */
+/* GENERAL CONFIG */
+body {
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+/* GRADIENTS */
+.horizontalGradient {
+  background: linear-gradient(to right, var(--secondary), var(--primary)) !important;
+}
+.verticalGradient {
+  background: linear-gradient(to bottom, var(--primary), var(--secondary)) !important;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.fullWidth {
+  width: 100%;
+}
+.fullHeight {
+  height: 100%;
+}
+.textCenter {
+  text-align: center;
+}
+
+.maxFullHeight {
+  max-height: 100%;
+  height: inherit;
+}
+
+.full-md-width {
+  width: inherit;
+}
+.full-md-height {
+}
+
+.pageContainer {
+}
+
+@media only screen and (min-width: 769px) {
+  .full-md-width {
+    width: 100%;
+  }
+  .full-md-height {
+    height: 100%;
+  }
+  .pageContainer {
+    height: 100%;
+  }
+  .pageContainer {
+    min-height: 500px;
+    max-height: 100%;
+    height: 100%;
+  }
+  .fit-lg-width {
+    width: fit-content !important;
+  }
+}
+
+.red-snackbar{
+  background-color: #F44336;
+  color: #fff;
+  button {
+    color: white !important;
+  }
+}
+.yellow-snackbar{
+  background-color: #F5A623;
+  color: #fff;
+  button {
+    color: white !important;
+  }
+}
+.green-snackbar{
+  background-color: #089000;
+  color: #fff;
+  button {
+    color: white !important;
+  }
+}
+.blue-snackbar{
+  background-color: #0077FF;
+  color: #fff;
+  button {
+    color: white !important;
+  }
+}
+.gray-snackbar{
+  background-color: gray;
+  color: #FFF;
+  button {
+    color: white !important;
+  }
+}
+
+.redColor {
+  color: #ff1b00 !important;
+}
+
+.greenColor {
+  color: var(--green) !important;
+}
+
+.cardIcon {
+  font-size: 40px !important;
+  width: 40px !important;
+  height: 40px !important;
+  color: var(--secondary);
+}
+
+@media only screen and (min-width: 980px) {
+  .cardIcon {
+  }
+}
+
+
+.cardBlackIcon {
+  font-size: 40px !important;
+  width: 40px !important;
+  height: 40px !important;
+  color: black;
+}
+
+.cardPrimaryIcon {
+  font-size: 40px !important;
+  width: 40px !important;
+  height: 40px !important;
+  color: var(--primary);
+}
+
+.minHFit {
+  min-height: fit-content !important;
+}
+
+.minWFit {
+  min-width: fit-content !important;
+}
+
+::ng-deep .customPopup {
+  margin: 5px !important;
+  padding: 0 !important;
+  ::ng-deep .leaflet-popup-content {
+    margin: 5px !important;
+  }
+}
+
+.searchContainer {
+  width: 100%;
+}
+
+@media only screen and (min-width: 769px) {
+  .searchContainer {
+    width: calc(100% - 110px) !important;
+  }
+}
+
+button:focus {
+  outline: none;
+}
+
+*:focus {
+  outline: none;
+}
+
+.pointer {
+  cursor: pointer;
+}

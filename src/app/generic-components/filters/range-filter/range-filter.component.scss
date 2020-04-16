@@ -1,0 +1,49 @@
+::ng-deep .ultimateMatModal {
+  width: 750px !important;
+  max-width: 90vw !important;
+  height: fit-content !important;
+  max-height: 80vh !important;
+  box-shadow: 0 0 20px 8px rgba(0, 0, 0, 0.3) !important;
+}
+
+@media only screen and (max-width: 576px) {
+  ::ng-deep .ultimateMatModal {
+    width: 90vw !important;
+    height: 70vh !important;
+  }
+}
+
+@media only screen and (min-width: 577px) and (max-width: 768px) {
+  ::ng-deep .ultimateMatModal {
+    width: 600px;
+  }
+}
+
+.clearButton {
+  width: 120px;
+}
+
+.closeButton {
+  width: 90px;
+}
+
+::ng-deep .checkItem {
+  .mat-checkbox-layout {
+    width: 100%;
+    .mat-checkbox-label {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      width: 100%;
+      white-space: nowrap;
+    }
+  }
+}
+
+::ng-deep .modalSpnner {
+  width: 20px !important;
+  height: 20px !important;
+  svg {
+    width: 20px !important;
+    height: 20px !important;
+  }
+}

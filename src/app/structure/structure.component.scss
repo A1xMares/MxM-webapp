@@ -1,0 +1,177 @@
+/* ------------- */
+/* main wrapper */
+#main-wrapper {
+  background-color: #f9f9f9;
+  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
+}
+
+#structureLogo {
+  width: auto;
+  height: 25px;
+}
+
+.roleActive {
+  padding-top: 5px;
+  height: 50px;
+  h5 {
+    color: var(--off-yellow) !important;
+  }
+}
+
+#toolbar {
+  overflow-x: hidden !important;
+  z-index: 9999 !important;
+  position: absolute;
+}
+
+#topMiddleContainer {
+  width: 100%;
+  max-width: 350px;
+}
+
+.topIconButton {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  mat-icon {
+    font-size: 30px;
+    width: 30px;
+    height: 30px;
+    color: var(--primary);
+  }
+}
+
+.topRightIconButton {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  mat-icon {
+    font-size: 25px;
+    width: 27px;
+    height: 27px;
+    color: white;
+  }
+}
+
+#badgeContainer {
+  overflow: visible;
+}
+
+#profilePicture {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+#userContainer {
+  height: 100%;
+}
+
+.toolbarIcon {
+   font-size: 32px !important;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+ }
+
+.toolbarRow {
+  padding: 0 20px;
+  height: 50px !important;
+}
+
+@media only screen and (min-width: 992px) {
+  #structureLogo {
+
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .toolbarRow {
+    padding: 0 100px;
+  }
+}
+
+#secondaryToolbar {
+  height: 50px !important;
+}
+
+#logoText {
+  font-size: 25px !important;
+}
+
+
+/* ------------- */
+/* pages wrapper */
+#pagesWrapper {
+  display: flex;
+  height: calc(100vh - 50px);
+  background-color: #E9EBEF !important;
+  margin-top: 56px;
+}
+@media (min-width: 992px) {
+  #pagesWrapper {
+    height: calc(100vh - 100px) !important;
+  }
+  #pagesWrapper {
+    margin-top: 100px;
+  }
+
+  #logoText {
+    font-size: 28px !important;
+  }
+}
+@media (min-width: 598px) and (max-width: 991px) {
+  #pagesWrapper {
+    margin-top: 50px;
+  }
+}
+#pagesPadding {
+  padding: 30px 10px 0 10px;
+  overflow: auto;
+  width: 100%;
+  overflow-x: hidden;
+}
+@media only screen and (max-width: 1039px) {
+  #pagesPadding {
+    overflow-y: auto;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  #pagesPadding {
+    padding: 18px 0 0 0;
+  }
+}
+/* ------------- */
+/* active page */
+.active{
+  background-color: rgba(0,0,0,.075);
+}
+
+.dropActive *, .dropActive > *, .dropActive{
+  color: var(--secondary) !important;
+}
+
+
+::ng-deep .menuDropdown {
+  margin-top: 3px !important;
+}
+
+.dropDownIcon {
+  color: #000 !important;
+}
+
+.sideUserContainer {
+  width: 210px;
+}
+
+
+.sideProfilePicture {
+  width: 95px;
+  height: auto;
+  border-radius: 50%;
+  overflow: hidden;
+}

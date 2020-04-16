@@ -1,0 +1,421 @@
+#tableContainer {
+    overflow: auto;
+    overflow-x: hidden;
+}
+
+#paginatorContainer {
+    height: 50px;
+    min-height: 50px;
+    padding: 0 5px;
+    overflow-y: hidden;
+    overflow-x: auto;
+    border-top: 1px solid lightgray;
+}
+
+::ng-deep #paginatorContainer::-webkit-scrollbar {
+    display: none !important;
+}
+
+.topContainer {
+    overflow: hidden;
+}
+
+
+
+.datatable {
+    margin-bottom: 0 !important;
+    width: 100%;
+    overflow: visible;
+    mat-header-row {
+        min-width: fit-content;
+        min-height: 50px!important;
+        max-height: 50px!important;
+        height: auto !important;
+        padding-top: 3px;
+        position: -webkit-sticky !important;
+        mat-header-cell {
+            // @extend .Panel-act-2;
+            min-width: 50px;
+            min-height: 50px !important;
+            max-height: 50px !important;
+            height: 50px !important;
+        }
+        ::ng-deep mat-header-cell {
+            padding: 0;
+            ::ng-deep .mat-sort-header-container {
+                padding: 5px 15px 0 15px;
+            }
+        }
+        ::ng-deep mat-header-cell:first-child {
+          ::ng-deep .mat-sort-header-container {
+            padding: 5px 15px 0 25px;
+          }
+        }
+    }
+    mat-row {
+        min-height: 50px;
+        max-height: 50px;
+        border-bottom: none !important;
+        mat-cell {
+            padding: 0;
+            .celltext {
+                padding: 8px 15px;
+                margin: 0 !important;
+            }
+            width: 100%;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            align-content: center;
+            position: relative;
+            // @extend .popUpMenuText;
+            min-height: 50px;
+            max-height: 50px;
+            border-top: 1px solid lightgray;
+            font-size: 13px !important;
+            left: 0 !important;
+            overflow: hidden;
+        }
+        mat-cell:last-child {
+            border-right: none;
+          .celltext {
+            padding: 8px 25px 8px 15px;
+            margin: 0 !important;
+          }
+        }
+        mat-cell:first-child {
+          .celltext {
+            padding: 8px 15px 8px 25px;
+            margin: 0 !important;
+          }
+        }
+        mat-cell.selectedRow {
+            // background-color: #F1F1F1 !important;
+        }
+    }
+    mat-row:nth-last-child(3) {
+      border-bottom: 1px solid lightgray !important;
+    }
+    .noExpandedRow:nth-child(2n+2) {
+        // background-color: #F7F7F7 !important;
+    }
+    .whiteCard {
+        width: 25px;
+        min-width: 25px;
+        height: 25px;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        -webkit-box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.25);
+        -moz-box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.25);
+        box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.25);
+        cursor: pointer;
+        border: none;
+    }
+    .whiteCard mat-icon {
+        margin: 0 !important;
+        color: var(--secondary);
+        font-size: 17px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+    }
+    .expandButton {
+        width: 65px;
+        min-width: 35px;
+        padding: 0 15px 0 8px;
+        .whiteCard .expandIcon {
+            max-width: 20px !important;
+            width: 20px !important;
+            min-width: 20px !important;
+        }
+    }
+}
+
+.datatable-paginator {
+    background: transparent !important;
+    margin: 0;
+    height: 50px;
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: flex-end;
+     ::ng-deep .mat-paginator-container {
+        display: flex;
+        align-items: center;
+        align-content: center;
+        justify-content: flex-end;
+        min-height: 40px;
+        height: 30px;
+        padding: 0 8px;
+        flex-wrap: wrap-reverse;
+        width: 100%;
+        max-height: 30px;
+        overflow: hidden;
+        min-width: max-content;
+    }
+     ::ng-deep .mat-paginator-outer-container {
+        height: 50px !important;
+        max-height: 50px !important;
+        min-height: 50px !important;
+        display: flex;
+        align-items: center;
+        align-content: center;
+    }
+     ::ng-deep .mat-paginator-navigation-previous,
+     ::ng-deep .mat-paginator-navigation-next,
+     ::ng-deep .mat-paginator-navigation-first,
+     ::ng-deep .mat-paginator-navigation-last {
+        width: 30px !important;
+        height: 30px !important;
+        .mat-button-wrapper {
+            height: 30px !important;
+            display: flex !important;
+            align-items: center !important;
+            align-content: center !important;
+        }
+    }
+     ::ng-deep .mat-paginator-navigation-next {
+        margin-left: 5px;
+    }
+     ::ng-deep .mat-paginator-navigation-first {
+        margin-right: 5px;
+    }
+     ::ng-deep .mat-paginator-navigation-last {
+        margin-left: 5px;
+    }
+}
+
+.cellActionsContainer {
+    width: fit-content;
+    min-width: 20px;
+    max-width: 40px;
+    height: 33px;
+    background: transparent;
+    position: absolute;
+    right: 0;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: flex-start;
+}
+
+.copyButton {
+    mat-icon {
+        width: 12px;
+        height: 12px;
+        font-size: 12px;
+        color: gray;
+    }
+    border: none;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    background: transparent;
+    padding: 0;
+    width: 20px;
+    min-width: 20px;
+    height: 33px;
+}
+
+.expandedCopyButton {
+    mat-icon {
+        width: 15px;
+        height: 15px;
+        font-size: 15px;
+        color: gray;
+    }
+    border: none;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    background: transparent;
+    padding: 0;
+    width: 25px;
+    min-width: 25px;
+    height: 33px;
+}
+
+.buttonCell {
+    max-width: 55px !important;
+    min-width: 55px !important;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    padding: 6px 10px 6px 10px !important;
+}
+.lastButtonCell {
+  max-width: 65px !important;
+  min-width: 65px !important;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  padding: 6px 25px 6px 10px !important;
+}
+
+.buttonHeaderCell {
+    max-width: 55px !important;
+    min-width: 55px !important;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    padding: 6px 0 !important;
+    div {
+        padding: 0 !important;
+    };
+}
+
+.lastButtonHeaderCell {
+  max-width: 65px !important;
+  min-width: 65px !important;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  padding: 6px 15px 6px 0 !important;
+  div {
+    padding: 0 !important;
+  };
+}
+
+.textIconCell {
+    max-width: 65px !important;
+    min-width: 65px !important;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    padding: 6px 0 !important;
+    div {
+        padding: 0 !important;
+    };
+}
+
+.expandCell {
+    max-width: 85px !important;
+    min-width: 85px !important;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    padding: 6px 25px 6px 10px !important;
+}
+
+.expandHeaderCell {
+    max-width: 85px !important;
+    min-width: 85px !important;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    padding: 6px 15px 6px 0 !important;
+  white-space: nowrap;
+    ::ng-deep .mat-sort-header-container {
+      padding-right: 10px!important;
+      padding-left: 0!important;
+    }
+}
+
+.clientDetailCell {
+  padding: 0 !important;
+}
+
+.expandedRow,
+.clientDetailCell {
+    height: fit-content !important;
+    width: 100%;
+    display: flex;
+    align-content: center;
+    align-items: center;
+  border: none !important;
+}
+
+@media only screen and(min-width: 769px) {
+    .expandedRow,
+    .clientDetailCell {
+        padding: 0 15px 15px 15px !important;
+      height: fit-content !important;
+      min-height: fit-content !important;
+      max-height: fit-content !important;
+    }
+}
+
+.expandedRow {
+  padding: 0 10px 10px 10px !important;
+}
+
+.colorCircle {
+    width: 20px;
+    height: 20px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.colorCell {
+    max-width: 60px !important;
+    min-width: 60px !important;
+}
+
+.checkCell {
+    max-width: 40px !important;
+    min-width: 40px !important;
+    padding: 0 10px !important;
+}
+
+.outboundRow:nth-child(n+2) {
+    background-color: #F7F7F7 !important;
+}
+
+.btn-edit {
+    background: none !important;
+    border: none !important;
+    margin-top: 3px;
+}
+
+#tableDealsContainer {
+    margin-top: -5px;
+}
+
+.expandedTextContainer {
+    overflow: hidden;
+}
+
+.noteContainer {
+    border-radius: 2px;
+    padding: 5px 10px !important;
+    font-size: 13px;
+    margin-top: 5px;
+    border: 1px solid lightgray;
+    background-color: #f5f5f5;
+    margin-left: 5px;
+}
+
+.noteButtonContainer {
+    min-width: fit-content;
+}
+
+::ng-deep .mat-paginator-range-actions {
+     ::ng-deep div.mat-paginator-range-label,
+    .mat-paginator-range-label {
+    }
+}
+
+.iconCol {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.dropSelect {
+    border: none;
+}
+
+.rateText {
+    padding-right: 0 !important;
+}
+
+.rateIcon{
+    font-size: 16px;
+}

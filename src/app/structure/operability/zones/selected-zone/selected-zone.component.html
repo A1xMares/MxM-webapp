@@ -1,0 +1,131 @@
+
+<mat-card class="form fullWidth p-3 mb-4 minHFit maxFullH crudZone overflow-hidden" [formGroup]="addForm">
+
+  <div class="row">
+    <div class="col-12 d-flex align-content-center align-items-center justify-content-between mb-2">
+      <div class="d-flex align-content-center align-items-center">
+        <!-- BACK ZONES -->
+        <button mat-raised-button color="accent" class="mr-3"
+                (click)="router.navigate(['zonas']).catch()"
+                matTooltip="Ir a zonas">
+          <mat-icon class="mr-1" >arrow_back</mat-icon>
+          Zonas
+        </button>
+        <!-- TITLE -->
+        <p class="h1-secondary-bold d-flex align-items-center align-content-center mb-0 mr-3">
+          <mat-icon class="cardIcon mr-2">location_searching</mat-icon>
+          {{isNew ? 'Nueva zona' : 'Zona'}}
+        </p>
+      </div>
+      <button mat-button
+              *ngIf="!isNew && !isEdit"
+              (click)="isEdit = true"
+              class="d-flex align-content-center align-items-center">
+        Editar
+        <mat-icon class="ml-2 editZoneIcon">edit</mat-icon>
+      </button>
+      <button mat-button
+              *ngIf="!isNew && isEdit"
+              (click)="isEdit = false;resetValues()"
+              class="d-flex align-content-center align-items-center grayButton">
+        Cancelar edición
+        <mat-icon class="ml-1 editZoneIcon">close</mat-icon>
+      </button>
+    </div>
+
+    <div class="col-12 col-sm-6 col-lg-6 mt-1 mb-1">
+      <mat-form-field appearance="outline" class="fullWidth">
+        <mat-label>Nombre de la zona</mat-label>
+        <input matInput placeholder="Nombre de la zona" formControlName="name" required [readonly]="!isEdit">
+        <button mat-button *ngIf="addForm.get('name').value && isEdit" matSuffix mat-icon-button aria-label="Clear" (click)="addForm.get('name').setValue('')">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+
+    <div class="col-12 col-sm-6 col-lg-6 mt-1 mb-1">
+      <mat-form-field appearance="outline" class="fullWidth">
+        <mat-label>Sucursal</mat-label>
+        <mat-select placeholder="Sucursal" formControlName="branchId" required [disabled]="!isEdit">
+          <mat-option value="" disabled="">Seleccione una opción</mat-option>
+          <mat-option *ngFor="let branch of branchOptions" [value]="branch.id">{{branch.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="col-12 mt-2">
+      <div id="leafletContainer"
+           class="fullWidth"
+           leaflet
+           [leafletOptions]="options"
+           [leafletLayers]="prevLayers"
+           (leafletMapReady)="mapLoaded($event)"
+           [leafletFitBounds]="currentPolygon ? currentPolygon.getBounds() : (prevBounds ? prevBounds.getBounds() : null)">
+        #map>
+        <div *ngIf="isEdit"
+             leafletDraw
+             [leafletDrawOptions]="drawOptions"
+             (leafletDrawCreated)="polygonCreated($event)"
+             (leafletDrawEdited)="polygonEdited($event)"
+             (leafletDrawDeleted)="polygonDeleted($event)"></div>
+        <!--<div *ngIf="prevPolygon" [leafletLayer]="prevPolygon"></div>-->
+      </div>
+    </div>
+
+    <!--<div class="col-12 col-sm-6 col-md-12 mt-3" *ngIf="!isNew">
+      <p class="h4-black-bold">
+        <mat-icon>access_time</mat-icon>
+        Ult. act: {{zone ? zone.formattedUpdateTime : 'N/A'}}
+      </p>
+    </div>-->
+
+    <div class="col-12 d-flex align-items-center align-content-center justify-content-end mt-4 mb-2" *ngIf="isEdit">
+
+      <!-- DELETE -->
+      <button mat-raised-button
+              class="mr-3"
+              color="warn"
+              *ngIf="!isNew"
+              (click)="delete()">
+        <mat-icon class="mr-1">delete</mat-icon>
+        Eliminar zona
+      </button>
+
+      <!-- BUTTON -->
+      <button mat-raised-button
+              class=""
+              color="accent"
+              type="submit"
+              (click)="performRequest()">
+        <mat-icon class="mr-1">save</mat-icon>
+        Guardar zona
+      </button>
+
+    </div>
+  </div>
+
+
+</mat-card>
+
+<div class="row minZoneHeight">
+  <div class="col-12 col-lg-6 col-xl-5 maxFullH" [@fInT1]="'in'">
+
+  </div>
+
+  <div class="col-12 col-lg-6 col-xl-7">
+
+    <div class="d-flex align-content-start align-content-start flex-column justify-content-center fullWidth" *ngIf="!isNew">
+
+      <app-zone-data [@fInB1]="'in'"></app-zone-data>
+
+      <app-zone-clients [@fInB2]="'in'"></app-zone-clients>
+
+      <app-zone-routes [@fInB3]="'in'"></app-zone-routes>
+
+      <app-zone-asvisers [@fInB4]="'in'"></app-zone-asvisers>
+
+    </div>
+
+  </div>
+
+</div>

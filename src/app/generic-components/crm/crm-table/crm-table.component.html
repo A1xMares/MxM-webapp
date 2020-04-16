@@ -1,0 +1,279 @@
+<div class="d-flex flex-column align-items-center align-content-center fullWidth pb-2 pageContainer">
+
+    <!-- FILTERS AND BUTTONS -->
+    <div class="row fullWidth minHFit">
+
+        <div class="col-12 col-md-7 col-lg-8 align-items-start align-content-start flex-wrap d-none d-md-flex minHFit">
+            <h1 class="h1-gray-bold mr-3"> {{config ? config.title : ''}} </h1>
+
+            <div *ngFor="let filter of config.filtersArray" class="mr-2 mb-2">
+                <ng-container [ngTemplateOutlet]="filter.templatePointer" *ngIf="!firstLoad"></ng-container>
+            </div>
+
+            <!-- clear filters -->
+            <div class="mb-2 mr-2" *ngIf="!firstLoad && customDynamicFilters.length > 0">
+                <button type="button" class="grayButton fullWidth" matRipple (click)="resetFilters()">
+                    <p>Clear {{customDynamicFilters.length}} filter(s)</p>
+                </button>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-5 col-lg-4 d-flex align-content-start align-items-start justify-content-end minHFit">
+            <!-- searchbar -->
+            <div class="clientsFormItem mr-2 fullWidth">
+                <div class="searchbar" (click)="search.focus()">
+                    <mat-icon matPrefix class="fsize22">search</mat-icon>
+                    <input type="text" matInput placeholder="Search..." #search [formControl]="searchbar">
+                    <button type="button" class="searchbarSuffix fsize22" *ngIf="searchbar.value" matSuffix aria-label="Clear" (click)="searchbar.setValue('')">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </div>
+            </div>
+
+            <!-- open map -->
+            <div class="mb-2 mr-2" *ngIf="config ? config.hasMap : false">
+                <div class="grayButton fullWidth" matRipple (click)="showMap = !showMap">
+                    <i class="feather-icon icon-map pr-1"></i>
+                    <p>Map</p>
+                </div>
+            </div>
+
+            <!-- newSubject -->
+            <div class="mb-2">
+                <button type="button" class="orangeButton fullWidth" matRipple (click)="newSubject.emit(true)" *ngIf="editAccess" #newClientButton>
+                    <i class="feather-icon icon-plus-circle pr-1"></i>
+                    <p>New</p>
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- TABLE -->
+    <div class="whiteCard fullWidth fullHeight newTableCard mt-1">
+        <app-data-table (onSortChange)="setSort($event)" #datatable></app-data-table>
+    </div>
+
+</div>
+
+
+<!-- FILTER TEMPLATES -->
+<!-- FILTER TEMPLATES -->
+<!-- FILTER TEMPLATES -->
+
+<!-- GENERIC FILTERS -->
+
+<ng-template #mapRange>
+    <app-google-map-range (filterContent)="setFilterValue('mapRange', $event)"
+                          [prevValues]="prevmapRange"
+                          #mapRangeFilter>
+    </app-google-map-range>
+</ng-template>
+
+<ng-template #tags>
+    <app-tags-filter class="filterElement margL0"
+     [config]="{
+        buttonIcon: 'filter_none',
+        buttonTitle: 'Tags',
+        inputPlaceholder: 'Write one tag...'
+      }" (filterContent)="setFilterValue('tags', $event)" [prevValues]="prevtags" #tagsFilter>
+    </app-tags-filter>
+</ng-template>
+
+<ng-template #products>
+    <app-ultimate-select class="filterElement"
+                         [config]="{
+                buttonIcon: 'texture',
+                buttonTitle: 'Products',
+                inputPlaceholder: 'Search products...',
+                showProperty: 'name',
+                searchModel: 'Products',
+                searchProperties: ['name'],
+                customFilterProperties: [],
+                customFilterValues: [],
+                includeObject: [],
+                hasSuffix: true,
+                suffixType: 'productColor',
+                sorter: 'name asc',
+                returnItself: true,
+                returnProperty: ''
+              }" (filterContent)="setFilterValue('products', $event)" [prevValues]="prevproducts" #productsFilter> <!--   -->
+    </app-ultimate-select>
+</ng-template>
+
+<ng-template #grains>
+    <app-ultimate-select class="filterElement"
+                         [config]="{
+                buttonIcon: 'texture',
+                buttonTitle: 'Grains',
+                inputPlaceholder: 'Search grains...',
+                showProperty: 'name',
+                searchModel: 'Grains',
+                searchProperties: ['name'],
+                customFilterProperties: [],
+                customFilterValues: [],
+                includeObject: [],
+                hasSuffix: true,
+                suffixType: 'productColor',
+                sorter: 'name asc',
+                returnItself: true,
+                returnProperty: ''
+              }"  (filterContent)="setFilterValue('grains', $event)" [prevValues]="prevgrains" #grainsFilter> <!-- (filterContent)="manageProductColumns($event)" -->
+    </app-ultimate-select>
+</ng-template>
+
+<ng-template #targetPrice>
+    <app-range-filter class="filterElement"
+      [config]="{
+        buttonIcon: 'track_changes',
+        buttonTitle: 'T. price'
+      }" (filterContent)="setFilterValue('targetPrice', $event)" [prevValues]="prevtargetPrice" #targetPriceFilter>
+    </app-range-filter>
+</ng-template>
+
+<ng-template #rating>
+    <div class="customSelectContainer ratingContainer body-gray-bold d-flex align-items-center align-content-center" matRipple (click)="rateWrapper.open()">
+        <mat-icon class="customFilterIcon ml-2" matPrefix>tune</mat-icon>
+        <mat-select placeholder="Rating (0)" class="customSelect" [formControl]="rate"
+                    (valueChange)="setFilterValue('rating', $event)"
+                    multiple
+                    id="rateWrapper"
+                    #rateWrapper>
+            <mat-select-trigger>
+                Rating ({{rate.value.length}})
+            </mat-select-trigger>
+            <mat-option disabled>Select multiple ratings</mat-option>
+            <mat-option value=0 class="rateOption">
+                <p class="starsWrapper">
+                    <mat-icon class="starFilterIcon">star_border</mat-icon>
+                    <mat-icon class="starFilterIcon">star_border</mat-icon>
+                    <mat-icon class="starFilterIcon">star_border</mat-icon>
+                    <mat-icon class="starFilterIcon">star_border</mat-icon>
+                    <mat-icon class="starFilterIcon">star_border</mat-icon>
+                </p>
+            </mat-option>
+            <mat-option value=1>
+                <p class="starsWrapper">
+                    <mat-icon class="starFilterIcon">star</mat-icon>
+                    <mat-icon class="starFilterIcon">star_border</mat-icon>
+                    <mat-icon class="starFilterIcon">star_border</mat-icon>
+                    <mat-icon class="starFilterIcon">star_border</mat-icon>
+                    <mat-icon class="starFilterIcon">star_border</mat-icon>
+                </p>
+            </mat-option>
+            <mat-option value=2>
+                <p class="starsWrapper">
+                    <mat-icon class="starFilterIcon">star</mat-icon>
+                    <mat-icon class="starFilterIcon">star</mat-icon>
+                    <mat-icon class="starFilterIcon">star_border</mat-icon>
+                    <mat-icon class="starFilterIcon">star_border</mat-icon>
+                    <mat-icon class="starFilterIcon">star_border</mat-icon>
+                </p>
+            </mat-option>
+            <mat-option value=3>
+                <p class="starsWrapper">
+                    <mat-icon class="starFilterIcon">star</mat-icon>
+                    <mat-icon class="starFilterIcon">star</mat-icon>
+                    <mat-icon class="starFilterIcon">star</mat-icon>
+                    <mat-icon class="starFilterIcon">star_border</mat-icon>
+                    <mat-icon class="starFilterIcon">star_border</mat-icon>
+                </p>
+            </mat-option>
+            <mat-option value=4>
+                <p class="starsWrapper">
+                    <mat-icon class="starFilterIcon">star</mat-icon>
+                    <mat-icon class="starFilterIcon">star</mat-icon>
+                    <mat-icon class="starFilterIcon">star</mat-icon>
+                    <mat-icon class="starFilterIcon">star</mat-icon>
+                    <mat-icon class="starFilterIcon">star_border</mat-icon>
+                </p>
+            </mat-option>
+            <mat-option value=5>
+                <p class="starsWrapper">
+                    <mat-icon class="starFilterIcon">star</mat-icon>
+                    <mat-icon class="starFilterIcon">star</mat-icon>
+                    <mat-icon class="starFilterIcon">star</mat-icon>
+                    <mat-icon class="starFilterIcon">star</mat-icon>
+                    <mat-icon class="starFilterIcon">star</mat-icon>
+                </p>
+            </mat-option>
+        </mat-select>
+    </div>
+</ng-template>
+
+<!-- PULSES - SALES FILTERS -->
+<ng-template #buyers>
+    <app-ultimate-select class="filterElement"
+                         [config]="{
+                buttonIcon: 'account_box',
+                buttonTitle: 'Buyers',
+                inputPlaceholder: 'Search buyers...',
+                showProperty: 'name',
+                searchModel: 'AppUsers',
+                searchProperties: ['name'],
+                customFilterProperties: ['isTesting'],
+                customFilterValues: [false],
+                includeObject: ['branches'],
+                hasSuffix: true,
+                suffixType: 'branchFilter',
+                sorter: 'name asc',
+                returnItself: true,
+                returnProperty: '',
+                needBranch: true
+            }" (filterContent)="setFilterValue('buyers', $event)" [prevValues]="prevbuyers" #buyersFilter>
+    </app-ultimate-select>
+</ng-template>
+
+<ng-template #groups>
+    <app-ultimate-select class="filterElement margR0" *ngIf="editAccess"
+                         [config]="{
+                buttonIcon: 'group',
+                buttonTitle: 'Groups',
+                inputPlaceholder: 'Search groups...',
+                showProperty: 'name',
+                searchModel: 'Groups',
+                searchProperties: ['name'],
+                customFilterProperties: [],
+                customFilterValues: [],
+                includeObject: [],
+                hasSuffix: true,
+                suffixType: 'branchFilter',
+                sorter: 'name asc',
+                returnItself: true,
+                returnProperty: '',
+                needBranch: true
+            }" (filterContent)="setFilterValue('groups', $event)" [prevValues]="prevgroups" #groupsFilter>
+    </app-ultimate-select>
+</ng-template>
+
+<ng-template #category>
+    <div class="customSelectContainer" matRipple (click)="categoriesWrapper.open()">
+        <mat-select placeholder="Category" class="customSelect" [formControl]="categories"
+                    (selectionChange)="setFilterValue('category', $event)" multiple>
+            <mat-icon class="filterIcon" matPrefix>tune</mat-icon>
+            <mat-select-trigger>
+                <mat-icon class="selectIconTrigger" *ngIf="validateCategory(categories.value, 'producer')">spa</mat-icon>
+                <mat-icon class="selectIconTrigger" *ngIf="validateCategory(categories.value, 'broker')">record_voice_over</mat-icon>
+                <mat-icon class="selectIconTrigger" *ngIf="validateCategory(categories.value, 'elevator')">directions_railway</mat-icon>
+                <mat-icon class="selectIconTrigger" *ngIf="validateCategory(categories.value, 'cleaning')">view_week</mat-icon>
+            </mat-select-trigger>
+            <mat-option disabled>Select a category</mat-option>
+            <mat-option value="producer">
+                <mat-icon class="selectIcon">spa</mat-icon>
+                Producer
+            </mat-option>
+            <mat-option value="broker">
+                <mat-icon class="selectIcon">record_voice_over</mat-icon>
+                Broker
+            </mat-option>
+            <mat-option value="elevator">
+                <mat-icon class="selectIcon">directions_railway</mat-icon>
+                Elevator
+            </mat-option>
+            <mat-option value="cleaning">
+                <mat-icon class="selectIcon">view_week</mat-icon>
+                Cleaning Plant
+            </mat-option>
+        </mat-select>
+    </div>
+</ng-template>

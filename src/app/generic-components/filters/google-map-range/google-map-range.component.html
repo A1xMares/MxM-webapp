@@ -1,0 +1,63 @@
+<!-- BUTTON -->
+<div class="ultimateSelectButton" matRipple [matMenuTriggerFor]="googleMapMenu" (menuOpened)="setGoogleAutocomplete()">
+    <mat-icon class="filterIcon">my_location</mat-icon>
+    <p class="body-gray-bold">{{('Map range (' + (isActive ? 'YES)' : 'NO)'))}}</p>
+</div>
+
+<!----------------------->
+<!-- popoup filter tags -->
+<mat-menu #googleMapMenu="matMenu" (click)="$event.stopPropagation();" class="ultimateMatModal pt-3" [overlapTrigger]="false" #menuDropDown>
+
+    <div class="d-flex align-content-center align-items-center justify-content-between" (click)="$event.stopPropagation();">
+        <p class="pl-3 h2-orange-bold" (click)="$event.stopPropagation();">
+            Filter by Map range
+        </p>
+
+        <div class="d-flex align-content-center align-items-center" (click)="$event.stopPropagation();">
+
+            <button class="grayButton clearButton mr-2" matRipple (click)="clearFilter()">
+                <mat-icon class="actionsAuctionIcon">clear</mat-icon>
+                <span>Clear filter</span>
+            </button>
+
+            <button class="orangeButton mr-3" matRipple (click)="setRange()">
+                <mat-icon class="actionsAuctionIcon">add_circle_outline</mat-icon>
+                <span>Set range</span>
+            </button>
+        </div>
+
+    </div>
+
+    <div class="fullWidth pl-3 pr-3 mt-2" (click)="$event.stopPropagation();">
+        <div class="row" (click)="$event.stopPropagation();">
+
+            <div class="col-12 col-md-8 formItem" (click)="$event.stopPropagation();">
+                <label for="addressWrapper" class="inputLabel">Search point</label>
+                <div class="customInput">
+                    <input type="text" matInput placeholder="Point of search (Search in google maps)" id="addressWrapper" [formControl]="search" #addressWrapper>
+                    <button type="button" class="searchbarSuffix fsize22" *ngIf="search.value" matSuffix aria-label="Clear" (click)="search.setValue('')">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </div>
+            </div>
+
+            <!----------------------->
+            <!-- radius -->
+            <div class="col-12 col-md-4 formItem" (click)="$event.stopPropagation();">
+                <label for="radius" class="inputLabel">Search radius</label>
+                <div class="customInput radiusInput" (click)="radiusWrapper.focus()">
+                    <input class="customInput" #radiusWrapper type="number" matInput placeholder="Radius in Kms" id="radius" [formControl]="radius">
+                    <button type="button" class="searchbarSuffix fsize22" *ngIf="radius.value" matSuffix aria-label="Clear" (click)="radius.setValue('')">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="fullWidth pl-3 pr-3 mt-2 mb-3 google-map" (click)="$event.stopPropagation();">
+        <!--<agm-map [latitude]="20.6518948" [longitude]="-103.407928" class="google-map"></agm-map>-->
+        <div id="map" class="google-map"></div>
+    </div>
+
+</mat-menu>

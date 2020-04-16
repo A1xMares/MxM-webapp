@@ -1,0 +1,413 @@
+<!-- LOADER -->
+<div *ngIf="firstLoad" class="fullHeight">
+    <app-table-loader></app-table-loader>
+</div>
+
+<!-- MESSAGE IF HOT FOUND -->
+<div class="fullWidth pb-5 pt-5 d-flex align-items-center align-content-center justify-content-center"
+     *ngIf="tableCount === 0 && !firstLoad && !this.loading"
+     [@fInT1]="'in'">
+    <p class="h5-black-bold"> No hay registros </p>
+</div>
+
+<!-- COMPONENT CONTAINER -->
+<div class="d-flex align-content-center align-items-center justify-content-between flex-column fullHeight"
+     #heightContainer>
+    <div class="d-flex align-content-center align-items-center flex-column fullWidth topContainer">
+
+        <!-- LOADING BAR -->
+        <div class="loaderWrapper fullWidth">
+            <mat-progress-bar mode="indeterminate"
+                              class="loadProgress fullWidth"
+                              *ngIf="loading && !firstLoad">
+            </mat-progress-bar>
+        </div>
+
+        <!-- TABLE CONTAINER -->
+        <div class="fullWidth"
+             id="tableContainer"
+             #tableContainer>
+
+              <!-- table -->
+              <mat-table class="datatable" matSort
+                         *ngIf="!firstLoad && (tableCount !== 0 || this.loading)"
+                         multiTemplateDataRows
+                         [dataSource]="dataSource"
+                         (matSortChange)="loadTableData(false, $event, true); onSortChange.emit($event)"
+                         [matSortActive]="configObject.sorterProp"
+                         [matSortDirection]="configObject.sorterDirection"
+                         matSortDisableClear
+                         [@fInB1]="'in'">
+
+
+                  <!------------------------------------------>
+                  <!------------------------------------------>
+                  <!-- column renderer -->
+                  <ng-container *ngFor="let col of displayedColumnsConfig let columnIndex = index"
+                                [cdkColumnDef]="col.property">
+
+
+                      <!-- column header renderer -->
+                      <mat-header-cell *cdkHeaderCellDef class="body-black-bold" mat-sort-header
+                                       [disabled]="!col.hasSorter"
+                                       [ngClass]="{
+                                          buttonHeaderCell: col.columnType.type === 'button' && (columnIndex !== (displayedColumnsConfig.length - 1)),
+                                          lastButtonHeaderCell: col.columnType.type === 'button' && (columnIndex === (displayedColumnsConfig.length - 1)),
+                                          textIconCell: col.columnType.type === 'textIcon',
+                                          checkCell: col.columnType.type === 'check',
+                                          colorCell: col.columnType.type === 'color',
+                                          expandHeaderCell: col.columnType.type === 'expandHidden' || col.columnType.type === 'expandButton'
+                                        }" [ngStyle]="{
+                                          'max-width': col.columnType.maxWidthText ? col.columnType.maxWidthText : '100%',
+                                          'flex-grow': col.flexGrow
+                                        }">
+                          {{col.title}}
+                      </mat-header-cell>
+
+
+                      <!-- column cell renderer (inside this goes every cell type) -->
+                      <mat-cell *cdkCellDef="let dataRow;" class="body-gray-bold"
+                                (mouseenter)="hoverCell = isEditing ? hoverCell : (col.property + dataRow.id)"
+                                (mouseleave)="hoverCell = isEditing ? hoverCell : '' "
+                                [ngClass]="{
+                                  buttonCell: col.columnType.type === 'button' && (columnIndex !== (displayedColumnsConfig.length - 1)),
+                                  lastButtonCell: col.columnType.type === 'button' && (columnIndex === (displayedColumnsConfig.length - 1)),
+                                  checkCell: col.columnType.type === 'check',
+                                  colorCell: col.columnType.type === 'color',
+                                  expandCell: col.columnType.type === 'expandHidden' || col.columnType.type === 'expandButton'
+                                }"
+                                [ngStyle]=" {
+                                  'max-width': col.columnType.maxWidthText ? col.columnType.maxWidthText : '100%',
+                                  'flex-grow': col.flexGrow
+                                }">
+
+
+                          <!------------------------------------------>
+                          <!-- if cell just display formatted text -->
+                          <!-- (click)="!this.mobileQuery.matches ? (expandedElement = expandedElement !== dataRow ? dataRow : {}) : openBottomSheet();" -->
+                          <p class="cut-text body-gray-bold fullWidth celltext"
+                             *ngIf="col.columnType.type !== 'check' &&
+                                      col.columnType.type !== 'color' &&
+                                      col.columnType.type !== 'button' &&
+                                      col.columnType.type !== 'expandButton' &&
+                                      col.columnType.type !== 'expandHidden' &&
+                                      col.columnType.type !== 'icon' &&
+                                      col.columnType.type !== 'iconText' &&
+                                      col.columnType.type !== 'textIcon'"
+                             (click)="(col.isCustomExpandible ? setCustomExpandible(col.expandibleTemplate, dataRow) : null)">
+
+                              {{ col.columnType.type !== 'relation' ? col.columnType.formatter(dataRow[col.property]) : col.columnType.formatter(dataRow) }}
+                          </p>
+
+
+                          <!------------------------------------------>
+                          <!-- if cell display icon + text  (PRODUCTS)-->
+                          <span *ngIf="col.columnType.type === 'iconText' && dataRow.icon"
+                                [className]="('icon-' + dataRow.icon + ' adroitSelectIcon ml-2 d-flex align-items-center align-content-center')"
+                                [ngStyle]="{color: dataRow.color ? dataRow.color : '*'}">
+                          </span>
+                          <p class="cut-text body-gray-bold fullWidth celltext"
+                             *ngIf="col.columnType.type === 'iconText'"
+                             (click)="(col.isCustomExpandible ? setCustomExpandible(col.expandibleTemplate, dataRow) : null)">
+
+                              {{ col.columnType.formatter(dataRow[col.property]) }}
+                          </p>
+
+
+                          <!------------------------------------------>
+                          <!-- if cell is "textIcon" -->
+                          <p class="cut-text body-gray-bold fullWidth celltext rateText"
+                             *ngIf="col.columnType.type === 'textIcon'"
+                             (click)="(col.isCustomExpandible ? setCustomExpandible(col.expandibleTemplate, dataRow) : null)">
+                              {{ col.columnType.formatterAppliedOnRow ? col.columnType.formatter(dataRow) : col.columnType.formatter(dataRow[col.property])  }}
+                          </p>
+                          <i [className]="'feather-icon icon-' + col.buttonIcon + ' rateIcon pr-3'"
+                             *ngIf="col.columnType.type === 'textIcon'">
+                          </i>
+
+
+                          <!------------------------------------------>
+                          <!-- if cell is check -->
+                          <p class="cut-text body-gray-bold fullWidth celltext d-flex justify-content-center" *ngIf="col.columnType.type === 'check'">
+                              <mat-checkbox
+                                      [checked]="col.task ? dataRow[col.property] : false"
+                                      color="primary"
+                                      (change)=' col.task ? checkChange(checkbox.checked, dataRow.id, configObject.searchModel) : null'
+                                      #checkbox>
+                              </mat-checkbox>
+                              <!-- (change)="selectRow($event, row.id)" -->
+                          </p>
+
+
+                          <!------------------------------------------>
+                          <!-- if cell is color -->
+                          <!-- (click)="!this.mobileQuery.matches ? (expandedElement = expandedElement !== dataRow ? dataRow : {}) : openBottomSheet();" -->
+                          <div class="fullHeight fullWidth d-flex justify-content-center align-items-center align-content-center"
+                               (click)="(col.isCustomExpandible ? setCustomExpandible(col.expandibleTemplate, dataRow) : null)"
+                               *ngIf="col.columnType.type === 'color'">
+
+                              <div [style.background-color]="dataRow.color" class="colorCircle"></div>
+                          </div>
+
+
+                          <!------------------------------------------>
+                          <!-- if cell is a button -->
+                          <button type="button" class="whiteCard"
+                                  (click)="col.columnType.formatter(dataRow);
+                                   (col.isCustomExpandible ? setCustomExpandible(col.expandibleTemplate, dataRow) : null)"
+                                  *ngIf="col.columnType.type === 'button'">
+
+                              <mat-icon>{{col.buttonIcon}}</mat-icon>
+                          </button>
+
+
+                          <!------------------------------------------>
+                          <!-- if cell is an icon -->
+                          <div class="body-primary-regular iconCol mb-0"
+                               *ngIf="col.columnType.type === 'icon'">
+                              <!-- Have a expanded Note -->
+                              <div *ngIf="dataRow[col.property] == true">
+                                  <button type="button" class="whiteCard expandButton"
+                                          (click)=" (col.isCustomExpandible ? setCustomExpandible(col.expandibleTemplate, dataRow) : null)">
+                                      <mat-icon>{{col.secondIcon}} keyboard_arrow_down</mat-icon>
+                                  </button>
+                              </div>
+
+                              <!-- whitout a expanded Note -->
+                              <div *ngIf="dataRow[col.property] == false">
+                                  <mat-icon>{{col.principalIcon}}</mat-icon>
+                              </div>
+                          </div>
+
+
+                          <!------------------------------------------>
+                          <!-- if cell is expandHidden -->
+                          <button type="button" class="whiteCard expandButton p-0"
+                                  (click)="expandedElement = expandedElement !== dataRow ? dataRow : {};"
+                                  *ngIf="col.columnType.type === 'expandHidden'">
+
+                              <p class="body-secondary-regular ml-1 mr-1 mb-0">
+                                  {{noDisplayedColumns.length}}
+                              </p>
+                              <mat-icon class="expandIcon">visibility</mat-icon>
+                              <mat-icon class="expandIcon">
+                                  {{expandedElement === dataRow ? 'expand_less' : 'expand_more'}}
+                              </mat-icon>
+                          </button>
+
+
+                          <!------------------------------------------>
+                          <!-- if cell is expandButton -->
+                          <button type="button" class="whiteCard expandButton p-0"
+                                  (click)="(col.isCustomExpandible ? setCustomExpandible(col.expandibleTemplate, dataRow) : null)"
+                                  *ngIf="col.columnType.type === 'expandButton'">
+
+                              <p class="body-primary-regular ml-1 mr-1 mb-0" *ngIf="col.property === 'getNotes'">
+                                  {{dataRow.getNotes ? dataRow.getNotes.length : 0}}
+                              </p>
+
+                              <mat-icon class="expandIcon">
+                                  {{col.expandibleIcon}}
+                              </mat-icon>
+                              <mat-icon class="expandIcon">
+                                  {{expandedElementTwo === dataRow ? 'expand_less' : 'expand_more'}}
+                              </mat-icon>
+                          </button>
+
+
+                          <!------------------------------------------>
+                          <!-- if cell data can be copied or edited -->
+                          <div class="cellActionsContainer" *ngIf="
+                                  hoverCell === (col.property + dataRow.id) &&
+                                  (col.columnType.hasCopyButton ||
+                                  col.columnType.editButton ||  col.columnType.editButton) && !tableScroll">
+
+                              <button type="button"
+                                      class="copyButton"
+                                      *ngIf="col.columnType.hasCopyButton"
+                                      matTooltip="Copiar el valor de esta celda"
+                                      (click)="copyData(
+                                          (col.columnType.type === 'relation' ?
+                                          col.columnType.formatter(dataRow) :
+                                          col.columnType.formatter(dataRow[col.property]))
+                                      )">
+                                  <mat-icon>file_copy</mat-icon>
+                              </button>
+
+                              <button type="button"
+                                      class="copyButton"
+                                      *ngIf="col.columnType.editButton"
+                                      matTooltip="Edit this cell"
+                                      (click)="
+                                          model = configObject.searchModel;
+                                          editProp = col.property;
+                                          editTitle = col.title;
+                                          tempEditData = dataRow[col.property];
+                                          editConfig = col.columnType.editButton;
+                                          editId = dataRow.id;
+                                          isEditing = true;
+                                          editRow = dataRow;
+                                          editColIndex = columnIndex;
+                                          (col.columnType.editButton.type ? setDropdown('dropdown_edit', editRow) : false );
+                                          (col.columnType.editButton.template ? setDropdown(col.columnType.editButton.template, editRow) : false );"
+                                      [matMenuTriggerFor]="editMenu">
+
+                                  <mat-icon *ngIf="col.columnType.editButton.template">remove_red_eye</mat-icon>
+                                  <mat-icon *ngIf="col.columnType.editButton.type">edit</mat-icon>
+                              </button>
+                          </div>
+                      </mat-cell>
+                  </ng-container> <!-- HERE ENDS CELL RENDERER  -->
+
+                  <!------------------------------------------>
+                  <!-- expanded column renderer -->
+                  <ng-container matColumnDef="expandedDetail">
+                      <mat-cell *cdkCellDef="let dataRow" class="clientDetailCell">
+                          <div class="row fullWidth">
+
+                              <div *ngFor="let col of noDisplayedColumnsConfig"
+                                   class="col-6 col-md-4 col-lg-3 mt-2 mt-md-3 d-flex align-items-start align-content-start"
+                                   (mouseenter)="hoverCell = isEditing ? hoverCell : (col.property + dataRow.id) "
+                                   (mouseleave)="hoverCell = isEditing? hoverCell : ''">
+
+                                  <div class="mr-3 expandedTextContainer">
+                                      <p class="body-black-bold">{{col.title}}</p>
+                                      <p class="body-gray-bold">
+                                          {{ col.columnType.type !== 'relation' ? col.columnType.formatter(dataRow[col.property]) : col.columnType.formatter(dataRow) }}
+                                      </p>
+                                  </div>
+
+                                  <div class="d-flex align-items-center align-content-center justify-content-end">
+                                      <button *ngIf="hoverCell === (col.property + dataRow.id) && col.columnType.hasCopyButton"
+                                              type="button" class="expandedCopyButton"
+                                              (click)="copyData(
+                                                  (col.columnType.type === 'relation' ?
+                                                  col.columnType.formatter(dataRow) :
+                                                  col.columnType.formatter(dataRow[col.property])))">
+
+                                          <mat-icon class="leftEditProduct">file_copy</mat-icon>
+                                      </button>
+
+                                      <button type="button"
+                                              class="copyButton"
+                                              *ngIf="col.columnType.editButton"
+                                              matTooltip="Edit this cell"
+                                              (click)="
+                                                  model = configObject.searchModel;
+                                                  editProp = col.property;
+                                                  editTitle = col.title;
+                                                  tempEditData = dataRow[col.property];
+                                                  editConfig = col.columnType.editButton;
+                                                  editId = dataRow.id;
+                                                  isEditing = true;
+                                                  editRow = dataRow;
+                                                  (col.columnType.editButton.type ? setDropdown('dropdown_edit', editRow) : false );
+                                                  (col.columnType.editButton.template ? setDropdown(col.columnType.editButton.template, editRow) : false );" [matMenuTriggerFor]="editMenu">
+
+                                          <mat-icon *ngIf="col.columnType.editButton.template">remove_red_eye</mat-icon>
+                                          <mat-icon *ngIf="col.columnType.editButton.type">edit</mat-icon>
+                                      </button>
+
+                                  </div>
+                              </div>
+
+                          </div>
+                      </mat-cell>
+                  </ng-container>
+
+                  <!-- second expanded column renderer -->
+                  <ng-container matColumnDef="expandedDetailTwo">
+                      <mat-cell *cdkCellDef="let dataRow" class="clientDetailCell">
+                          <ng-container
+                                  [ngTemplateOutlet]="selectedTemplate"
+                                  [ngTemplateOutletContext]="{dataRow: dataRow}"
+                                  #customExpandibleContainer>
+                          </ng-container>
+                      </mat-cell>
+                  </ng-container>
+
+                  <!-- rows config -->
+                  <!-- [@detailExpand]="(row == expandedElement && noDisplayedColumnsConfig.length > 0 && !this.mobileQuery.matches) ? 'expanded' : 'collapsed'" -->
+                  <!-- default rows -->
+                  <mat-header-row *cdkHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+                  <mat-row [@tableRow]="animationRowSide" *cdkRowDef="let row; columns: displayedColumns;"
+                           class="noExpandedRow">
+                  </mat-row>
+                  <mat-row *cdkRowDef="let row; columns: ['expandedDetail']; when: isExpansionDetailRow"
+                           [@detailExpand]="(row == expandedElement && noDisplayedColumnsConfig.length > 0) ? 'expanded' : 'collapsed'"
+                           style="overflow: hidden"
+                           [className]="row == expandedElement ? 'expandedRow' : 'collapsedRow'">
+                  </mat-row>
+
+                  <!-- optional rows -->
+                  <mat-row *cdkRowDef="let row; columns: ['expandedDetailTwo']; when: isExpansionDetailRowTwo"
+                           [@detailExpand]="(row.id === expandedElementTwo.id) ? 'expanded' : 'collapsed'"
+                           style="overflow: hidden"
+                           [className]="row == expandedElementTwo ? 'expandedRow' : 'collapsedRow'">
+                  </mat-row>
+
+              </mat-table>
+
+        </div>
+    </div>
+
+    <!-- PAGINATOR CONTAINER -->
+    <div class="fullWidth pr-2 mr-1" id="paginatorContainer" *ngIf="!firstLoad && (tableCount !== 0 || this.loading)" [@fInB1]="'in'">
+        <mat-paginator class="datatable-paginator" [length]="tableCount" [pageSize]="pageSize" [pageSizeOptions]="[10, 25, 50, 100]" [showFirstLastButtons]="true" (page)="loadTableData(false, this.sort, false);setPage($event);">
+        </mat-paginator>
+    </div>
+</div>
+<!-- ----------------------------- -->
+<!-- ----------------------------- -->
+<!-- DATE DROPDOWN FUNCTIONALITY -->
+<!-- ----------------------------- -->
+<!-- ----------------------------- -->
+
+
+<!-- ----------------------------- -->
+<!-- ----------------------------- -->
+<!-- CUSTOM DROPDOWN FUNCTIONALITY -->
+<!-- ----------------------------- -->
+<!-- ----------------------------- -->
+
+<mat-menu (closed)="isEditing = false;" #editMenu="matMenu" (click)="$event.stopPropagation();">
+    <ng-container (click)="$event.stopPropagation();" [ngTemplateOutlet]="selectedDropdown" [ngTemplateOutletContext]="" #dropDown >
+    </ng-container>
+</mat-menu>
+
+
+
+<!-- =================================
+========= Dropdown templates =========
+====================================== -->
+
+<!-- CRM TAGS DROPDOWN -->
+<ng-template #tagsDropdown>
+    <app-tags-dropdown
+            (click)="$event.stopPropagation();"
+            [config]="{model: model, editProp: editProp, editTitle: editTitle, editId: editId, editRow: editRow, editColIndex: editColIndex, tempEditData: tempEditData}"
+            (changes)="reload(false)">
+    </app-tags-dropdown>
+</ng-template>
+
+<!-- CRM RATE DROPDOWN -->
+<ng-template #rateDropdown>
+    <app-rate-dropdown
+            (click)="$event.stopPropagation();"
+            [config]="{model: model, editProp: editProp, editTitle: editTitle, editId: editId, editRow: editRow, editColIndex: editColIndex, tempEditData: tempEditData}"
+            (changes)="reload(false)">
+    </app-rate-dropdown>
+</ng-template>
+
+
+
+<!-- ------------------------------- -->
+<!-- ------------------------------- -->
+<!-- CUSTOM EXPANDIBLE ROW TEMPLATES -->
+<!-- ------------------------------- -->
+<!-- ------------------------------- -->
+<ng-template #tempDefault></ng-template>
+
+<!-- PURCHASE CONTRACT ADVANCED PIE -->
+<ng-template #purchaseContracts let-dataRow="dataRow">
+</ng-template>

@@ -1,0 +1,25 @@
+<div class="fullWidth">
+
+    <h3 class="h3-orange-bold mt-2">Last notes</h3>
+
+    <p class="fullWidth body-black-bold textCenter" *ngIf="notes.length === 0">
+        Last notes not found
+    </p>
+
+    <div class="scrollContainer" *ngIf="notes.length > 0">
+        <div class="d-flex align-items-center align-content-center justify-content-start notesContainer pl-2">
+
+            <div *ngFor="let note of notes" class="whiteCard noteCard mr-3 d-flex flex-column p-3">
+
+                <p class="h4-black-bold">
+                    Date: {{(colTypes.getFormattedDate(note.createdAt) + ' ' +  colTypes.getFormattedTime(note.createdAt))}}
+                </p>
+
+                <p class="body-black-regular mt-2"> {{note.comments}} </p>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,85 @@
+<!----------------------->
+<!-- page container -->
+<div class="d-flex flex-column align-items-center align-content-center fullWidth pageContainer">
+  <div class="row maxFullHeight pb-4 pageContainer fullWidth">
+
+    <!-- table -->
+    <div class="col-12 pb-md-0 full-md-height">
+      <mat-card class="fullWidth p-0 maxFullHeight overflow-hidden" [@fInT1]="'in'">
+
+        <!-- TITLE, SEARCH, BUTTON ROW -->
+        <div class="row pt-4 pl-4 pr-4 minHFit filters">
+
+          <!-- TITLE, RESPONSIVE BUTTON -->
+          <div class="col-12 col-md-6 col-lg-8 align-items-start align-content-start flex-wrap d-flex minHFit mb-2 mb-md-0 justify-content-between">
+
+            <!-- TITLE -->
+            <p class="h1-secondary-bold d-flex align-items-center align-content-center mr-3 mr-md-0 mb-0">
+              <mat-icon class="cardIcon mr-2">people_alt</mat-icon>
+              <span class="d-md-block d-none"> Listado de usuarios </span>
+              <span class="d-block d-md-none"> Usuarios </span>
+            </p>
+
+            <!-- NEW BUTTON (RESPONSIVE) -->
+            <button mat-raised-button
+                    class="d-flex d-md-none"
+                    color="accent"
+                    (click)="openUser('nuevo')">
+              NUEVO
+              <mat-icon class="ml-1">add_box</mat-icon>
+            </button>
+          </div>
+
+          <!-- SEARCHBAR, DESKTOP BUTTON -->
+          <div class="col-12 col-md-6 col-lg-4 d-flex align-content-start align-items-start justify-content-end minHFit">
+
+            <!-- SEARCHBAR -->
+            <div class="mr-0 mr-md-2 searchContainer">
+              <mat-form-field appearance="outline" class="fullWidth">
+                <mat-label>Buscar</mat-label>
+                <mat-icon matPrefix>search</mat-icon>
+                <input matInput placeholder="Buscar..." [formControl]="searchbar">
+                <button mat-button *ngIf="searchbar.value" matSuffix mat-icon-button aria-label="Clear" (click)="searchbar.setValue('')">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-form-field>
+            </div>
+
+            <!-- NEW BUTTON (DESKTOP) -->
+            <button mat-raised-button
+                    class="mt-1 d-none d-md-flex"
+                    color="accent"
+                    (click)="openUser('nuevo')">
+              NUEVO
+              <mat-icon class="ml-1">add_box</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <!-- FILTERS CONTAINER -->
+        <!--<div class="row pt-2 pl-4 pr-4 minHFit filters">
+
+          <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+            <mat-form-field appearance="outline" class="fullWidth">
+              <mat-label>Filtrar por rol</mat-label>
+              <mat-select placeholder="Rol" [formControl]="role">
+                <mat-option value="false" disabled="">Seleccione una opción</mat-option>
+                <mat-option value="">Todos los roles</mat-option>
+                <mat-option value="ADVISER">Asesor</mat-option>
+                <mat-option value="ADMIN">Administrador</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+        </div>-->
+
+        <div class="fullWidth p-0 usersTableContainer overflow-hidden">
+          <app-data-table class="fullWidth" #datatable></app-data-table>
+        </div>
+
+      </mat-card>
+    </div>
+
+  </div>
+</div>
+

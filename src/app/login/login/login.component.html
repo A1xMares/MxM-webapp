@@ -1,0 +1,52 @@
+<div class="auth-wrapper d-flex no-block justify-content-center align-items-center" id="loginImg">
+</div>
+
+<div class="auth-box on-sidebar m-3 m-md-0">
+
+  <div class="d-flex justify-content-between flex-column align-content-center align-items-center fullHeight">
+    <div>
+
+      <!-- logo -->
+      <div class="logo d-flex justify-content-center mt-2">
+        <img src="../../../assets/img/logo.png" alt="MXM logo" id="logoImg"/>
+      </div>
+
+      <p class="h1-black-bold fullWidth textCenter"><span class="mexGreen">MÉXICO</span> X <span class="mexRed">MÉXICO</span></p>
+
+      <!-- Form -->
+      <form class="d-flex align-items-center align-content-center flex-column mt-4" [formGroup]="loginForm" (ngSubmit)="performLogin()">
+
+        <mat-form-field class="loginItem mb-2">
+          <mat-label>Usuario</mat-label>
+          <input matInput type="text" formControlName="username" placeholder="Usuario">
+          <mat-icon matSuffix>person</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field class="loginItem mb-2">
+          <mat-label>Contraseña</mat-label>
+          <input matInput type="password" formControlName="password" placeholder="Contraseña">
+          <mat-icon matSuffix>vpn_key</mat-icon>
+        </mat-form-field>
+
+        <p class="body-black-bold pb-2 mt-4" id="forgot">¿Olvidaste tu contraseña?</p>
+
+        <button mat-raised-button
+                type="submit"
+                class="whiteRoundedButton loginItem loginItem"
+                id="loginButton"
+                aria-label="Iniciar sesión"
+                color="primary">
+          <p class="body-white-regular mt-2 mb-2 pt-1 pb-1">
+            Iniciar sesión
+          </p>
+        </button>
+      </form>
+    </div>
+    <a href="https://acerca.mxm-web.com.mx/" target="_blank" class="h4-primary-bold mb-4" style="text-decoration: none">¡Visita nuestro sitio informativo!</a>
+  </div>
+
+</div>
+
+<div id="loader" class="d-flex align-items-center align-content-center justify-content-center" *ngIf="loading">
+  <app-table-loader></app-table-loader>
+</div>

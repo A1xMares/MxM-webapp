@@ -1,0 +1,25 @@
+::ng-deep .mat-input-underline {
+  background-color: #FFF;
+}
+
+::ng-deep .mat-paginator-range-actions{
+  ::ng-deep div.mat-paginator-range-label, .mat-paginator-range-label {
+    margin: 0!important;
+    display: none !important;
+  }
+}
+
+.filters {
+
+  ::ng-deep .mat-form-field-flex > .mat-form-field-infix { padding: .45em 0 .6em 0 !important; }
+  ::ng-deep .mat-form-field-label-wrapper { top: -1.3em; }
+  ::ng-deep .mat-form-field-wrapper { padding-bottom: 0 !important; }
+
+  ::ng-deep .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+    transform: translateY(-1.1em) scale(.75);
+    width: 133.33333%;
+  }
+
+}
+
+

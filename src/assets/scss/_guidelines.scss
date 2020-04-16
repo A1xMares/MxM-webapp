@@ -1,0 +1,447 @@
+/*
+	Guías de estilo
+ */
+@import "variables";
+/* Text styles */
+@mixin textBase($size, $weight, $color) {
+	font-family: $font-family-base;
+	font-size: $size;
+	font-weight: $weight;
+	font-style: normal;
+	font-stretch: normal;
+	line-height: normal;
+	letter-spacing: normal;
+	color: $color;
+
+	&:not(:disabled):not(.disabled):hover,
+	&:not(:disabled):not(.disabled):focus,
+	&:not(:disabled):not(.disabled):active {
+		color: $color;
+	}
+}
+
+.h1-white-bold {
+	@include textBase($h1-font-size, $font-weight-bold, $white);
+}
+
+.h1-gray-bold {
+	@include textBase($h1-font-size, $font-weight-bold, $gray);
+}
+
+.h1-orange-bold {
+	@include textBase($h1-font-size, $font-weight-bold, $primary-orange);
+}
+
+.h1-primary-bold {
+	@include textBase($h1-font-size, $font-weight-bold, $primary);
+}
+
+.h1-secondary-bold {
+	@include textBase($h1-font-size, $font-weight-bold, $secondary);
+}
+
+.h1-black-bold {
+	@include textBase($h1-font-size, $font-weight-bold, $black);
+}
+
+.h1-white-regular {
+	@include textBase($h1-font-size, $font-weight-normal, $white);
+}
+
+.h1-gray-regular {
+	@include textBase($h1-font-size, $font-weight-normal, $gray);
+}
+
+.h2-white-bold {
+	@include textBase($h2-font-size, $font-weight-bold, $white);
+}
+
+.h2-gray-bold {
+	@include textBase($h2-font-size, $font-weight-bold, $gray);
+}
+
+.h2-orange-bold {
+	@include textBase($h2-font-size, $font-weight-bold, $primary-orange);
+}
+
+.h2-black-bold {
+	@include textBase($h2-font-size, $font-weight-bold, $black);
+}
+
+.h2-primary-bold {
+	@include textBase($h2-font-size, $font-weight-bold, $primary);
+}
+
+.h2-secondary-bold {
+	@include textBase($h2-font-size, $font-weight-bold, $secondary);
+}
+
+/* H3 */
+
+.h3-white-bold {
+	@include textBase($h3-font-size, $font-weight-bold, $white);
+}
+
+.h3-gray-bold {
+	@include textBase($h3-font-size, $font-weight-bold, $gray);
+}
+
+.h3-orange-bold {
+	@include textBase($h3-font-size, $font-weight-bold, $primary-orange);
+}
+
+.h3-black-bold {
+	@include textBase($h3-font-size, $font-weight-bold, $black);
+}
+
+.h3-primary-bold {
+	@include textBase($h3-font-size, $font-weight-bold, $primary);
+}
+
+.h3-secondary-bold {
+	@include textBase($h3-font-size, $font-weight-bold, $secondary);
+}
+
+.h3-white-regular {
+	@include textBase($h3-font-size, $font-weight-normal, $white);
+}
+
+.h3-gray-regular {
+	@include textBase($h3-font-size, $font-weight-normal, $gray);
+}
+
+.h3-orange-regular {
+	@include textBase($h3-font-size, $font-weight-normal, $primary-orange);
+}
+
+.h3-black-regular {
+	@include textBase($h3-font-size, $font-weight-normal, $black);
+}
+
+.h3-primary-regular {
+	@include textBase($h3-font-size, $font-weight-normal, $primary);
+}
+
+.h3-secondary-regular {
+	@include textBase($h3-font-size, $font-weight-normal, $secondary);
+}
+
+.h3-white-light {
+	@include textBase($h3-font-size, $font-weight-light, $white);
+}
+
+.h3-gray-light {
+	@include textBase($h3-font-size, $font-weight-light, $gray);
+}
+
+.h3-orange-light {
+	@include textBase($h3-font-size, $font-weight-light, $primary-orange);
+}
+
+.h3-black-light {
+	@include textBase($h3-font-size, $font-weight-light, $black);
+}
+
+.h3-primary-light {
+	@include textBase($h3-font-size, $font-weight-light, $primary);
+}
+
+.h3-secondary-light {
+	@include textBase($h3-font-size, $font-weight-light, $secondary);
+}
+
+/* H4 */
+
+.h4-white-bold {
+	@include textBase($h4-font-size, $font-weight-bold, $white);
+}
+
+.h4-gray-bold {
+	@include textBase($h4-font-size, $font-weight-bold, $gray);
+}
+
+.h4-orange-bold {
+	@include textBase($h4-font-size, $font-weight-bold, $primary-orange);
+}
+
+.h4-black-bold {
+	@include textBase($h4-font-size, $font-weight-bold, $black);
+}
+
+.h4-primary-bold {
+	@include textBase($h4-font-size, $font-weight-bold, $primary);
+}
+
+.h4-secondary-bold {
+	@include textBase($h4-font-size, $font-weight-bold, $secondary);
+}
+
+.h4-white-regular {
+	@include textBase($h4-font-size, $font-weight-normal, $white);
+}
+
+.h4-gray-regular {
+	@include textBase($h4-font-size, $font-weight-normal, $gray);
+}
+
+.h4-orange-regular {
+	@include textBase($h4-font-size, $font-weight-normal, $primary-orange);
+}
+
+.h4-black-regular {
+	@include textBase($h4-font-size, $font-weight-normal, $black);
+}
+
+.h4-primary-regular {
+	@include textBase($h4-font-size, $font-weight-normal, $primary);
+}
+
+.h4-secondary-regular {
+	@include textBase($h4-font-size, $font-weight-normal, $secondary);
+}
+
+.h4-white-light {
+	@include textBase($h4-font-size, $font-weight-light, $white);
+}
+
+.h4-gray-light {
+	@include textBase($h4-font-size, $font-weight-light, $gray);
+}
+
+.h4-orange-light {
+	@include textBase($h4-font-size, $font-weight-light, $primary-orange);
+}
+
+.h4-black-light {
+	@include textBase($h4-font-size, $font-weight-light, $black);
+}
+
+.h4-primary-light {
+	@include textBase($h4-font-size, $font-weight-light, $primary);
+}
+
+.h4-secondary-light {
+	@include textBase($h4-font-size, $font-weight-light, $secondary);
+}
+
+/* H5 */
+
+.h5-white-bold {
+	@include textBase($h5-font-size, $font-weight-bold, $white);
+}
+
+.h5-gray-bold {
+	@include textBase($h5-font-size, $font-weight-bold, $gray);
+}
+
+.h5-orange-bold {
+	@include textBase($h5-font-size, $font-weight-bold, $primary-orange);
+}
+
+.h5-black-bold {
+	@include textBase($h5-font-size, $font-weight-bold, $black);
+}
+
+.h5-primary-bold {
+	@include textBase($h5-font-size, $font-weight-bold, $primary);
+}
+
+.h5-secondary-bold {
+	@include textBase($h5-font-size, $font-weight-bold, $secondary);
+}
+
+.h5-white-regular {
+	@include textBase($h5-font-size, $font-weight-normal, $white);
+}
+
+.h5-gray-regular {
+	@include textBase($h5-font-size, $font-weight-normal, $gray);
+}
+
+.h5-orange-regular {
+	@include textBase($h5-font-size, $font-weight-normal, $primary-orange);
+}
+
+.h5-black-regular {
+	@include textBase($h5-font-size, $font-weight-normal, $black);
+}
+
+.h5-primary-regular {
+	@include textBase($h5-font-size, $font-weight-normal, $primary);
+}
+
+.h5-secondary-regular {
+	@include textBase($h5-font-size, $font-weight-normal, $secondary);
+}
+
+.h5-white-light {
+	@include textBase($h5-font-size, $font-weight-light, $white);
+}
+
+.h5-gray-light {
+	@include textBase($h5-font-size, $font-weight-light, $gray);
+}
+
+.h5-orange-light {
+	@include textBase($h5-font-size, $font-weight-light, $primary-orange);
+}
+
+.h5-black-light {
+	@include textBase($h5-font-size, $font-weight-light, $black);
+}
+
+.h5-primary-light {
+	@include textBase($h5-font-size, $font-weight-light, $primary);
+}
+
+.h5-secondary-light {
+	@include textBase($h5-font-size, $font-weight-light, $secondary);
+}
+
+/* BODY */
+
+.body-white-bold {
+	@include textBase($font-size-base, $font-weight-bold, $white);
+}
+
+.body-gray-bold {
+	@include textBase($font-size-base, $font-weight-bold, $gray);
+}
+
+.body-orange-bold {
+	@include textBase($font-size-base, $font-weight-bold, $primary-orange);
+}
+
+.body-black-bold {
+	@include textBase($font-size-base, $font-weight-bold, $black);
+}
+
+.body-primary-bold {
+	@include textBase($font-size-base, $font-weight-bold, $primary);
+}
+
+.body-secondary-bold {
+	@include textBase($font-size-base, $font-weight-bold, $secondary);
+}
+
+.body-white-regular {
+	@include textBase($font-size-base, $font-weight-normal, $white);
+}
+
+.body-gray-regular {
+	@include textBase($font-size-base, $font-weight-normal, $gray);
+}
+
+.body-orange-regular {
+	@include textBase($font-size-base, $font-weight-normal, $primary-orange);
+}
+
+.body-black-regular {
+	@include textBase($font-size-base, $font-weight-normal, $black);
+}
+
+.body-primary-regular {
+	@include textBase($font-size-base, $font-weight-normal, $primary);
+}
+
+.body-secondary-regular {
+	@include textBase($font-size-base, $font-weight-normal, $secondary);
+}
+
+.body-white-light {
+	@include textBase($font-size-base, $font-weight-light, $white);
+}
+
+.body-gray-light {
+	@include textBase($font-size-base, $font-weight-light, $gray);
+}
+
+.body-orange-light {
+	@include textBase($font-size-base, $font-weight-light, $primary-orange);
+}
+
+.body-black-light {
+	@include textBase($font-size-base, $font-weight-light, $black);
+}
+
+.body-primary-light {
+	@include textBase($font-size-base, $font-weight-light, $primary);
+}
+
+.body-secondary-light {
+	@include textBase($font-size-base, $font-weight-light, $secondary);
+}
+
+/* CAPTION */
+
+.caption-white-bold {
+	@include textBase($font-size-sm, $font-weight-bold, $white);
+}
+
+.caption-gray-bold {
+	@include textBase($font-size-sm, $font-weight-bold, $gray);
+}
+
+.caption-orange-bold {
+	@include textBase($font-size-sm, $font-weight-bold, $primary-orange);
+}
+
+.caption-black-bold {
+	@include textBase($font-size-sm, $font-weight-bold, $black);
+}
+
+.caption-primary-bold {
+	@include textBase($font-size-sm, $font-weight-bold, $primary);
+}
+
+.caption-secondary-bold {
+	@include textBase($font-size-sm, $font-weight-bold, $secondary);
+}
+
+.caption-white-regular {
+	@include textBase($font-size-sm, $font-weight-normal, $white);
+}
+
+.caption-gray-regular {
+	@include textBase($font-size-sm, $font-weight-normal, $gray);
+}
+
+.caption-orange-regular {
+	@include textBase($font-size-sm, $font-weight-normal, $primary-orange);
+}
+
+.caption-black-regular {
+	@include textBase($font-size-sm, $font-weight-normal, $black);
+}
+
+.caption-primary-regular {
+	@include textBase($font-size-sm, $font-weight-normal, $primary);
+}
+
+.caption-secondary-regular {
+	@include textBase($font-size-sm, $font-weight-normal, $secondary);
+}
+
+.caption-white-light {
+	@include textBase($font-size-sm, $font-weight-light, $white);
+}
+
+.caption-gray-light {
+	@include textBase($font-size-sm, $font-weight-light, $gray);
+}
+
+.caption-orange-light {
+	@include textBase($font-size-sm, $font-weight-light, $primary-orange);
+}
+
+.caption-black-light {
+	@include textBase($font-size-sm, $font-weight-light, $black);
+}
+
+.caption-primary-light {
+	@include textBase($font-size-sm, $font-weight-light, $primary);
+}
+
+.caption-secondary-light {
+	@include textBase($font-size-sm, $font-weight-light, $secondary);
+}

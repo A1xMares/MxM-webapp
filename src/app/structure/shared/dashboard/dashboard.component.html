@@ -1,0 +1,127 @@
+
+<div class="d-flex flex-column align-items-center align-content-center fullWidth pageContainer">
+  <div class="row pb-3 fullWidth">
+    <div class="col-12 col-lg-8">
+
+      <div class="row">
+
+        <!-- header card -->
+        <div class="col-12" [@fInB1]="'in'">
+          <mat-card class="overflow-hidden mb-4 p-0" style="height: 350px;">
+
+            <owl-carousel-o [options]="owlConfig">
+              <ng-template carouselSlide class="fullWidth">
+                <img src="../../../../assets/img/working-people/tequileros.jpeg" class="carouselImg" alt="TEQUILEROS">
+              </ng-template>
+              <ng-template carouselSlide class="fullWidth">
+                <img src="../../../../assets/img/working-people/pintor.jpg" class="carouselImg" alt="TEQUILEROS">
+              </ng-template>
+              <ng-template carouselSlide class="fullWidth">
+                <img src="../../../../assets/img/working-people/jardinero.jpg" class="carouselImg" alt="TEQUILEROS">
+              </ng-template>
+              <ng-template carouselSlide class="fullWidth">
+                <img src="../../../../assets/img/working-people/soldador.jpg" class="carouselImg" alt="TEQUILEROS">
+              </ng-template>
+            </owl-carousel-o>
+
+            <div class="d-flex justify-content-end" style="position: absolute;right: 15px; bottom: 15px; z-index: 999;">
+              <mat-card class="p-0 mr-3">
+                <p class="body-black-bold p-3" style="background: darkorange; color: white">{{servicesQty.toLocaleString()}} Servicios disponibles</p>
+              </mat-card>
+              <mat-card class="p-0">
+                <p class="body-black-bold p-3" style="background: darkblue; color: white">{{jobsQty.toLocaleString() }} Trabajos disponibles</p>
+              </mat-card>
+            </div>
+
+          </mat-card>
+        </div>
+
+        <div class="col-12 col-md-6" [@fInB3]="'in'">
+          <mat-card class="overflow-hidden mb-4 d-flex align-items-center align-content-center">
+            <mat-icon style="color: darkgreen; font-size: 60px; width:60px; height:60px" class="mr-3">work</mat-icon>
+            <div class="d-flex flex-column justify-content-center">
+              <p class="h1-black-bold mb-1">
+                128
+              </p>
+              <p class="body-black-bold mb-0">
+                Trabajos cercanos
+              </p>
+            </div>
+          </mat-card>
+        </div>
+
+        <div class="col-12 col-md-6" [@fInB4]="'in'">
+          <mat-card class="overflow-hidden mb-4 d-flex align-items-center align-content-center">
+            <mat-icon style="color: blue; font-size: 60px; width:60px; height:60px" class="mr-3">assignment_ind</mat-icon>
+            <div class="d-flex flex-column justify-content-center">
+              <p class="h1-black-bold mb-1">
+                12
+              </p>
+              <p class="body-black-bold mb-0">
+                Aplicaron a tus trrabajos
+              </p>
+            </div>
+          </mat-card>
+        </div>
+
+        <div class="col-12 col-md-6" [@fInB4]="'in'">
+          <mat-card class="overflow-hidden mb-4 d-flex align-items-center align-content-center">
+            <mat-icon style="color: lightgreen; font-size: 60px; width:60px; height:60px" class="mr-3">how_to_reg</mat-icon>
+            <div class="d-flex flex-column justify-content-center">
+              <p class="h1-black-bold mb-1">
+                1
+              </p>
+              <p class="body-black-bold mb-0">
+                Alianza activa
+              </p>
+            </div>
+          </mat-card>
+        </div>
+
+        <div class="col-12 col-md-6" [@fInB4]="'in'">
+          <mat-card class="overflow-hidden mb-4 d-flex align-items-center align-content-center">
+            <mat-icon style="color: orange; font-size: 60px; width:60px; height:60px" class="mr-3">home_work</mat-icon>
+            <div class="d-flex flex-column justify-content-center">
+              <p class="h1-black-bold mb-1">
+                7
+              </p>
+              <p class="body-black-bold mb-0">
+                Empresas buscan una alianza
+              </p>
+            </div>
+          </mat-card>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="col-12 col-lg-4" [@fInB2]="'in'">
+      <mat-card class="overflow-hidden p-3" style="height: 520px;">
+
+        <div class="d-flex align-items-center">
+          <mat-icon class="cardBlackIcon mr-3">person</mat-icon>
+          <p class="h2-black-bold mb-0">{{currentUser ? currentUser.user.firstname + ' ' + currentUser.user.primaryLastname + ' ' + currentUser.user.secondaryLastname : 'N/D'}}</p>
+        </div>
+
+        <div class="d-flex justify-content-center p-2 dottedBorder mt-3 flex-column align-content-center align-items-center">
+          <qrcode [width]="250" [qrdata]="currentUser ? currentUser.user.qrCode : ''" [size]="256" [errorCorrectionLevel]="'M'" *ngIf="currentUser"></qrcode>
+          <p class="h4-black-bold">{{currentUser ? currentUser.user.qrCode : '-'}}</p>
+
+          <div class="mt-2 mb-2">
+            <p class="body-black-regular">
+              Compartir
+            </p>
+            <div class="d-flex align-items-center align-content-center justify-content-center">
+              <button mat-fab class="facebook-button ml-2 mr-2"><i class="fa fa-facebook" style="font-size: 20px;"></i></button>
+            </div>
+          </div>
+        </div>
+
+      </mat-card>
+    </div>
+
+  </div>
+</div>
+
+

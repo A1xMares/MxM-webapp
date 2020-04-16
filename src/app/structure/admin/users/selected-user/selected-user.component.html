@@ -1,0 +1,137 @@
+
+<div class="ml-3 mr-3">
+  <mat-card class="fullWidth p-3 overflow-hidden form" [@fInT1]="'in'">
+    <mat-card-content>
+
+      <div class="row pl-3 pr-3 mt-2" [formGroup]="addForm">
+
+        <div class="col-12 d-flex align-content-center align-items-center mb-3">
+          <!-- BACK USERS -->
+          <button mat-raised-button color="accent" class="mr-3"
+                  (click)="router.navigate(['usuarios']).catch()"
+                  matTooltip="Ir a usuarios">
+            <mat-icon class="mr-1" >arrow_back</mat-icon>
+            Usuarios
+          </button>
+          <!-- TITLE -->
+          <p class="h1-secondary-bold d-flex align-items-center align-content-center mr-3 mb-0">
+            <mat-icon class="cardIcon mr-2">person</mat-icon>
+            {{isNew ? 'Nuevo usuario' : 'Usuario seleccionado'}}
+          </p>
+        </div>
+
+        <div class="col-12 col-sm-6 col-md-4 mt-2 mb-2">
+          <mat-form-field appearance="outline" class="fullWidth">
+            <mat-label>Nombre </mat-label>
+            <input matInput placeholder="Nombre" formControlName="firstname" required>
+            <button mat-button *ngIf="addForm.get('firstname').value" matSuffix mat-icon-button aria-label="Clear" (click)="addForm.get('firstname').setValue('')">
+              <mat-icon>close</mat-icon>
+            </button>
+
+          </mat-form-field>
+        </div>
+
+        <div class="col-12 col-sm-6 col-md-4 mt-2 mb-2">
+          <mat-form-field appearance="outline" class="fullWidth">
+            <mat-label>Apellidos</mat-label>
+            <input matInput placeholder="Apellidos" formControlName="lastname" required>
+            <button mat-button *ngIf="addForm.get('lastname').value" matSuffix mat-icon-button aria-label="Clear" (click)="addForm.get('lastname').setValue('')">
+              <mat-icon>close</mat-icon>
+            </button>
+
+          </mat-form-field>
+        </div>
+
+        <div class="col-12 col-sm-6 col-md-4 mt-2 mb-2">
+          <mat-form-field appearance="outline" class="fullWidth">
+            <mat-label>Rol</mat-label>
+            <mat-select placeholder="Rol" formControlName="role" required>
+              <mat-option value="" disabled="">Seleccione una opción</mat-option>
+              <!--<mat-option value="ADVISER">Asesor</mat-option>-->
+              <mat-option value="ADMIN">Administrador</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="col-12 col-sm-6 col-md-4 mt-2 mb-2">
+          <mat-form-field appearance="outline" class="fullWidth">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" placeholder="Email" formControlName="email" required>
+            <button mat-button *ngIf="addForm.get('email').value" matSuffix mat-icon-button aria-label="Clear" (click)="addForm.get('email').setValue('')">
+              <mat-icon>close</mat-icon>
+            </button>
+
+          </mat-form-field>
+        </div>
+
+        <div class="col-12 col-sm-6 col-md-4 mt-2 mb-2">
+          <mat-form-field appearance="outline" class="fullWidth">
+            <mat-label>Usuario</mat-label>
+            <input matInput placeholder="Usuario" formControlName="username" required>
+            <button mat-button *ngIf="addForm.get('username').value" matSuffix mat-icon-button aria-label="Clear" (click)="addForm.get('username').setValue('')">
+              <mat-icon>close</mat-icon>
+            </button>
+
+          </mat-form-field>
+        </div>
+
+        <div class="col-12 col-sm-6 col-md-4 mt-2 mb-2" [formGroup]="passForm" *ngIf="isNew">
+          <mat-form-field appearance="outline" class="fullWidth">
+            <mat-label>Contraseña</mat-label>
+            <input matInput type="password" placeholder="Contraseña" formControlName="password" required>
+            <button mat-button *ngIf="passForm.get('password').value" matSuffix mat-icon-button aria-label="Clear" (click)="passForm.get('password').setValue('')">
+              <mat-icon>close</mat-icon>
+            </button>
+
+          </mat-form-field>
+        </div>
+
+        <div class="col-12 col-sm-6 col-md-4 mt-2 mb-2">
+          <mat-form-field appearance="outline" class="fullWidth">
+            <mat-label>Sucursal</mat-label>
+            <mat-select placeholder="Sucursal" formControlName="branchId" required>
+              <mat-option value="" disabled="">Seleccione una opción</mat-option>
+              <mat-option *ngFor="let branch of branchOptions" [value]="branch.id">{{branch.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="col-12 d-flex align-items-center align-content-center justify-content-end mt-4 mb-2">
+
+          <!-- PASSWORD -->
+          <button mat-raised-button
+                  class="mr-3 yellowButton"
+                  color="primary"
+                  *ngIf="!isNew"
+                  (click)="changePassword()">
+            <mat-icon class="mr-1">vpn_key</mat-icon>
+            Resetear contraseña
+          </button>
+
+          <!-- DELETE -->
+          <button mat-raised-button
+                  class="mr-3"
+                  color="warn"
+                  *ngIf="!isNew"
+                  (click)="delete()">
+            <mat-icon class="mr-1">delete</mat-icon>
+            Eliminar
+          </button>
+
+          <!-- BUTTON -->
+          <button mat-raised-button
+                  class=""
+                  color="accent"
+                  type="submit"
+                  (click)="performRequest()">
+            <mat-icon class="mr-1">save</mat-icon>
+            Guardar
+          </button>
+
+        </div>
+
+      </div>
+
+    </mat-card-content>
+  </mat-card>
+</div>
